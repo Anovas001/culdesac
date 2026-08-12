@@ -22,7 +22,9 @@ const serverSchema = z.object({
   APP_URL: z.string().url().transform((value) => value.replace(/\/$/, "")),
   APP_TIMEZONE: z.string().default("Europe/Madrid"),
   ADMIN_EMAIL: z.string().email(),
-  ADMIN_PASSWORD_HASH: z.string().min(1),
+  // Next's dotenv expansion requires `$` in bcrypt hashes to be escaped as `\$`.
+  // Docker's env_file keeps those backslashes, so normalize at the one server boundary.
+  ADMIN_PASSWORD_HASH: z.string().min(1).transform((value) => value.replace(/\\\$/g, "$")),
   SESSION_SECRET: z.string().min(32),
   EMAIL_MODE: z.enum(["console", "resend"]).default("console"),
   RESEND_API_KEY: optionalSecret,
