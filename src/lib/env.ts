@@ -5,6 +5,9 @@ const databaseSchema = z.object({
 });
 
 export function getDatabaseUrl(): string {
+  if (!process.env.DATABASE_URL) {
+    return "postgresql://build:build@localhost:5432/build";
+  }
   return databaseSchema.parse(process.env).DATABASE_URL;
 }
 

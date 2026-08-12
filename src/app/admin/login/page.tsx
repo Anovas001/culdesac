@@ -1,0 +1,2 @@
+import { login } from "./actions";
+export default async function Login({ searchParams }: { searchParams: Promise<{ error?: string }> }) { const params = await searchParams; return <main className="shell"><div className="card"><h1>Admin</h1>{params.error && <p className="error">Credencials incorrectes.</p>}<form action={login} className="form"><label>Email<input name="email" type="email" required /></label><label>Contrasenya<input name="password" type="password" required /></label><button>Entrar</button></form></div></main>; }

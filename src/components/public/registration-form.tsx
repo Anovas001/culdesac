@@ -1,0 +1,8 @@
+"use client";
+import { useState } from "react";
+
+export function RegistrationForm() {
+  const [error, setError] = useState<string | null>(null); const [loading, setLoading] = useState(false);
+  async function submit(formData: FormData) { setLoading(true); setError(null); const body = { ...Object.fromEntries(formData), acceptedTerms: formData.get("acceptedTerms") === "on", acceptedPrivacy: formData.get("acceptedPrivacy") === "on" }; try { const response = await fetch("/api/registrations", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) }); const data = await response.json(); if (!response.ok || !data.url) throw new Error(data.error ?? "Error inesperat."); window.location.assign(data.url); } catch (e) { setError(e instanceof Error ? e.message : "Error inesperat."); setLoading(false); } }
+  return <form action={submit} className="card form"><h2>Inscriu-te</h2>{error && <p className="error">{error}</p>}<label>Nom complet<input name="fullName" required /></label><label>Email<input name="email" type="email" required /></label><label>Epic Games username<input name="epicUsername" required /></label><label>Discord username<input name="discordUsername" /></label><label>Telèfon<input name="phone" type="tel" /></label><label className="check"><input name="acceptedTerms" type="checkbox" required /> Accepto els <a href="/legal/terms">termes</a></label><label className="check"><input name="acceptedPrivacy" type="checkbox" required /> Accepto la <a href="/legal/privacy">política de privacitat</a></label><button disabled={loading}>{loading ? "Redirigint…" : "Continuar al pagament"}</button></form>;
+}
