@@ -1,0 +1,13 @@
+.git
+.next
+node_modules
+coverage
+.env
+.env.*
+!.env.example
+*.tsbuildinfo
+Dockerfile*
+compose*.yml
+npm-debug.log*
+.DS_Store
+Thumbs.db
