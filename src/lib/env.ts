@@ -4,6 +4,11 @@ const databaseSchema = z.object({
   DATABASE_URL: z.string().url("DATABASE_URL must be a valid PostgreSQL connection URL."),
 });
 
+const optionalSecret = z.preprocess(
+  (value) => value === "" ? undefined : value,
+  z.string().min(1).optional(),
+);
+
 export function getDatabaseUrl(): string {
   if (!process.env.DATABASE_URL) {
     return "postgresql://build:build@localhost:5432/build";
@@ -20,10 +25,10 @@ const serverSchema = z.object({
   ADMIN_PASSWORD_HASH: z.string().min(1),
   SESSION_SECRET: z.string().min(32),
   EMAIL_MODE: z.enum(["console", "resend"]).default("console"),
-  RESEND_API_KEY: z.string().min(1).optional(),
-  EMAIL_FROM: z.string().min(3).optional(),
-  STRIPE_SECRET_KEY: z.string().min(1).optional(),
-  STRIPE_WEBHOOK_SECRET: z.string().min(1).optional(),
+  RESEND_API_KEY: optionalSecret,
+  EMAIL_FROM: z.preprocess((value) => value === "" ? undefined : value, z.string().min(3).optional()),
+  STRIPE_SECRET_KEY: optionalSecret,
+  STRIPE_WEBHOOK_SECRET: optionalSecret,
 }).superRefine((value, context) => {
   if (value.NODE_ENV === "production" && value.EMAIL_MODE !== "resend") {
     context.addIssue({ code: "custom", message: "Production requires EMAIL_MODE=resend.", path: ["EMAIL_MODE"] });
