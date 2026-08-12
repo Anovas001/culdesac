@@ -6,3 +6,82 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+enum TournamentStatus {
+  DRAFT
+  OPEN
+  CLOSED
+  COMPLETED
+}
+
+enum RegistrationStatus {
+  PENDING_PAYMENT
+  PAID
+  EXPIRED
+  CANCELLED
+  REFUNDED
+}
+
+model Tournament {
+  id                    String             @id @default(cuid())
+  name                  String
+  slug                  String             @unique
+  headline              String
+  description           String             @db.Text
+  rules                 String             @db.Text
+  eventDate             DateTime
+  priceCents            Int
+  currency              String             @default("eur") @db.VarChar(3)
+  capacity              Int?
+  heroImageUrl          String?
+  status                TournamentStatus   @default(DRAFT)
+  createdAt             DateTime           @default(now())
+  updatedAt             DateTime           @updatedAt
+  registrations         Registration[]
+  activeInSiteSettings  SiteSettings?      @relation("ActiveTournament")
+
+  @@index([status])
+}
+
+model SiteSettings {
+  id                  Int         @id @default(1)
+  activeTournamentId  String?     @unique
+  activeTournament    Tournament? @relation("ActiveTournament", fields: [activeTournamentId], references: [id], onDelete: Restrict)
+  updatedAt           DateTime    @updatedAt
+}
+
+model Registration {
+  id                         String             @id @default(cuid())
+  tournamentId               String
+  fullName                   String
+  email                      String
+  emailNormalized            String
+  epicUsername               String
+  epicUsernameNormalized     String
+  discordUsername            String?
+  phone                      String?
+  acceptedTerms              Boolean
+  acceptedPrivacy            Boolean
+  status                     RegistrationStatus @default(PENDING_PAYMENT)
+  amountCents                Int
+  currency                   String             @db.VarChar(3)
+  stripeCheckoutSessionId    String?            @unique
+  stripePaymentIntentId      String?            @unique
+  createdAt                  DateTime           @default(now())
+  updatedAt                  DateTime           @updatedAt
+  paidAt                     DateTime?
+  confirmationEmailSentAt    DateTime?
+  confirmationEmailLastError String?            @db.Text
+  tournament                 Tournament         @relation(fields: [tournamentId], references: [id], onDelete: Restrict)
+
+  @@unique([tournamentId, emailNormalized])
+  @@unique([tournamentId, epicUsernameNormalized])
+  @@index([tournamentId, status])
+}
+
+model StripeWebhookEvent {
+  id          String    @id
+  type        String
+  createdAt   DateTime  @default(now())
+  processedAt DateTime?
+}
