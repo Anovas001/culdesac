@@ -1,0 +1,209 @@
+.form {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+  color: #0a0a0f;
+  background: #fff;
+  border: 2px solid #0a0a0f;
+  box-shadow: 12px 12px 0 #7a00ff;
+}
+
+.heading {
+  padding-bottom: 1.5rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid #d9d9df;
+}
+
+.heading > span {
+  display: block;
+  margin-bottom: 0.65rem;
+  color: #7a00ff;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.heading h3 {
+  margin: 0;
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-weight: 950;
+  letter-spacing: -0.045em;
+  line-height: 0.95;
+  text-transform: uppercase;
+}
+
+.heading p {
+  margin: 0.75rem 0 0;
+  color: #5a5a63;
+  font-size: 0.85rem;
+}
+
+.error {
+  padding: 0.8rem 1rem;
+  margin: 0 0 1.25rem;
+  color: #8a0038;
+  background: #ffe3f3;
+  border-left: 4px solid #ff00e5;
+  font-size: 0.88rem;
+  font-weight: 800;
+}
+
+.fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.fields label {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.fields label > span {
+  font-size: 0.75rem;
+  font-weight: 850;
+  letter-spacing: 0.035em;
+  text-transform: uppercase;
+}
+
+.fields input {
+  min-width: 0;
+  width: 100%;
+  height: 3.2rem;
+  padding: 0 0.9rem;
+  color: #0a0a0f;
+  background: #f4f4f7;
+  border: 1px solid #d6d6dc;
+  border-radius: 0;
+  outline: none;
+  font: inherit;
+  transition: border-color 160ms ease, box-shadow 160ms ease, background 160ms ease;
+}
+
+.fields input::placeholder {
+  color: #92929a;
+}
+
+.fields input:hover {
+  border-color: #898992;
+}
+
+.fields input:focus-visible {
+  background: #fff;
+  border-color: #7a00ff;
+  box-shadow: 0 0 0 3px rgb(122 0 255 / 16%);
+}
+
+.wideField {
+  grid-column: 1 / -1;
+}
+
+.consents {
+  display: grid;
+  gap: 0.75rem;
+  padding: 1.4rem 0;
+  margin-top: 0.4rem;
+}
+
+.consents label {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.7rem;
+  color: #4a4a52;
+  font-size: 0.78rem;
+  line-height: 1.45;
+  cursor: pointer;
+}
+
+.consents input {
+  flex: 0 0 auto;
+  width: 1.05rem;
+  height: 1.05rem;
+  margin-top: 0.05rem;
+  accent-color: #7a00ff;
+}
+
+.consents a {
+  color: #0a0a0f;
+  font-weight: 800;
+  text-decoration: underline;
+  text-decoration-color: #ff00e5;
+  text-underline-offset: 0.18em;
+}
+
+.form button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 4rem;
+  padding: 0.9rem 1.2rem;
+  color: #0a0a0f;
+  background: #fff200;
+  border: 2px solid #0a0a0f;
+  border-radius: 0;
+  box-shadow: 5px 5px 0 #0a0a0f;
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 950;
+  letter-spacing: 0.02em;
+  text-align: left;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
+}
+
+.form button:hover:not(:disabled) {
+  background: #ff00e5;
+  transform: translate(3px, 3px);
+  box-shadow: 2px 2px 0 #0a0a0f;
+}
+
+.form button:focus-visible {
+  outline: 3px solid #7a00ff;
+  outline-offset: 3px;
+}
+
+.form button:disabled {
+  color: #77777e;
+  background: #e5e5e9;
+  cursor: wait;
+}
+
+.form button span:last-child {
+  font-size: 1.5rem;
+}
+
+.secureNote {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  margin: 1rem 0 0;
+  color: #6b6b73;
+  font-size: 0.7rem;
+  font-weight: 750;
+  letter-spacing: 0.03em;
+  text-align: center;
+}
+
+.secureNote span {
+  color: #7a00ff;
+  font-size: 0.55rem;
+}
+
+@media (max-width: 620px) {
+  .form {
+    box-shadow: 7px 7px 0 #7a00ff;
+  }
+
+  .fields {
+    grid-template-columns: 1fr;
+  }
+
+  .wideField {
+    grid-column: auto;
+  }
+}
