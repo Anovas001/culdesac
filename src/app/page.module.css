@@ -849,9 +849,10 @@
 }
 
 .footerBrand img {
+  display: block;
   width: 220px;
   height: auto;
-  margin: -2.5rem 0 -2rem;
+  margin: 0 0 0.75rem;
 }
 
 .footerBrand p {
