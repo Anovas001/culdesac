@@ -1,6 +1,7 @@
 import Image from "next/image";
 
 import { RegistrationForm } from "@/components/public/registration-form";
+import { brandHeroCopy } from "@/lib/brand-copy";
 import { buildPublicTournamentView } from "@/lib/public-tournament";
 import { getActiveTournament } from "@/services/tournaments/active";
 import { prismaActiveTournamentRepository } from "@/services/tournaments/repository";
@@ -70,19 +71,22 @@ export default async function Home() {
             <span aria-hidden="true" />
             {publicView.statusLabel}
           </div>
-          <p className={styles.kicker}>Culdesac presenta · Fortnite online</p>
-          <h1>{tournament.headline}</h1>
-          <p className={styles.heroDescription}>{tournament.description}</p>
+          <p className={styles.kicker}>{brandHeroCopy.kicker}</p>
+          <h1>
+            <span>{brandHeroCopy.gameLine}</span>
+            {brandHeroCopy.challengeLine}
+          </h1>
+          <p className={styles.heroDescription}>{brandHeroCopy.description}</p>
 
           <div className={styles.heroActions}>
             {publicView.isOpen && (
               <a className={styles.primaryCta} href="#inscripcio">
-                Inscriu-m’hi · {publicView.priceLabel}
+                Entrar al pròxim torneig · {publicView.priceLabel}
                 <span aria-hidden="true">↘</span>
               </a>
             )}
             <a className={styles.secondaryCta} href="#torneig">
-              Veure el torneig
+              Veure dates i format
             </a>
           </div>
 
@@ -90,6 +94,10 @@ export default async function Home() {
             <div>
               <dt>Data</dt>
               <dd><time dateTime={dateTimeFormatter(tournament.eventDate)}>{publicView.dateLabel}</time></dd>
+            </div>
+            <div>
+              <dt>Premi campió</dt>
+              <dd>{brandHeroCopy.championPrize}</dd>
             </div>
             <div>
               <dt>Entrada</dt>
@@ -121,7 +129,7 @@ export default async function Home() {
             )}
           </div>
           <div className={styles.eventPlate}>
-            <span>Pròxim torneig</span>
+            <span>{publicView.isOpen ? "Ara obert" : publicView.statusLabel}</span>
             <strong>{tournament.name}</strong>
           </div>
           <div className={styles.heroMark} aria-hidden="true">
