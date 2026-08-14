@@ -4,6 +4,7 @@ services:
       - "127.0.0.1:${POSTGRES_PORT:-5432}:5432"
 
   app:
+    image: culdesac-development
     build:
       context: .
       target: development
