@@ -14,8 +14,9 @@ export type ExistingRegistration = {
 
 export type RegistrationRepository = {
   getActiveTournament(): Promise<ActiveTournament | null>;
-  findExisting(tournamentId: string, emailNormalized: string, epicUsernameNormalized: string): Promise<ExistingRegistration | null>;
+  findExisting(tournamentId: string, emailNormalized: string, epicUsernameNormalized: string, dniNormalized: string): Promise<ExistingRegistration | null>;
   create(data: RegistrationInput & { tournamentId: string; amountCents: number; currency: string }): Promise<ExistingRegistration>;
+  updateParticipant(registrationId: string, participant: RegistrationInput): Promise<void>;
   reactivate(registrationId: string): Promise<void>;
 };
 
@@ -53,11 +54,14 @@ export async function createOrReuseRegistration(
     tournament.id,
     participant.emailNormalized,
     participant.epicUsernameNormalized,
+    participant.dniNormalized,
   );
   if (existing) {
     if (existing.status === "PAID") {
       throw new DuplicatePaidRegistrationError();
     }
+
+    await repository.updateParticipant(existing.id, participant);
 
     if (existing.status === "EXPIRED") {
       await repository.reactivate(existing.id);

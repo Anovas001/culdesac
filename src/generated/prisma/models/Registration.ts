@@ -43,7 +43,9 @@ export type RegistrationMinAggregateOutputType = {
   epicUsername: string | null
   epicUsernameNormalized: string | null
   discordUsername: string | null
-  phone: string | null
+  dni: string | null
+  dniNormalized: string | null
+  postalCode: string | null
   acceptedTerms: boolean | null
   acceptedPrivacy: boolean | null
   status: $Enums.RegistrationStatus | null
@@ -67,7 +69,9 @@ export type RegistrationMaxAggregateOutputType = {
   epicUsername: string | null
   epicUsernameNormalized: string | null
   discordUsername: string | null
-  phone: string | null
+  dni: string | null
+  dniNormalized: string | null
+  postalCode: string | null
   acceptedTerms: boolean | null
   acceptedPrivacy: boolean | null
   status: $Enums.RegistrationStatus | null
@@ -91,7 +95,9 @@ export type RegistrationCountAggregateOutputType = {
   epicUsername: number
   epicUsernameNormalized: number
   discordUsername: number
-  phone: number
+  dni: number
+  dniNormalized: number
+  postalCode: number
   acceptedTerms: number
   acceptedPrivacy: number
   status: number
@@ -125,7 +131,9 @@ export type RegistrationMinAggregateInputType = {
   epicUsername?: true
   epicUsernameNormalized?: true
   discordUsername?: true
-  phone?: true
+  dni?: true
+  dniNormalized?: true
+  postalCode?: true
   acceptedTerms?: true
   acceptedPrivacy?: true
   status?: true
@@ -149,7 +157,9 @@ export type RegistrationMaxAggregateInputType = {
   epicUsername?: true
   epicUsernameNormalized?: true
   discordUsername?: true
-  phone?: true
+  dni?: true
+  dniNormalized?: true
+  postalCode?: true
   acceptedTerms?: true
   acceptedPrivacy?: true
   status?: true
@@ -173,7 +183,9 @@ export type RegistrationCountAggregateInputType = {
   epicUsername?: true
   epicUsernameNormalized?: true
   discordUsername?: true
-  phone?: true
+  dni?: true
+  dniNormalized?: true
+  postalCode?: true
   acceptedTerms?: true
   acceptedPrivacy?: true
   status?: true
@@ -283,8 +295,10 @@ export type RegistrationGroupByOutputType = {
   emailNormalized: string
   epicUsername: string
   epicUsernameNormalized: string
-  discordUsername: string | null
-  phone: string | null
+  discordUsername: string
+  dni: string
+  dniNormalized: string
+  postalCode: string
   acceptedTerms: boolean
   acceptedPrivacy: boolean
   status: $Enums.RegistrationStatus
@@ -330,8 +344,10 @@ export type RegistrationWhereInput = {
   emailNormalized?: Prisma.StringFilter<"Registration"> | string
   epicUsername?: Prisma.StringFilter<"Registration"> | string
   epicUsernameNormalized?: Prisma.StringFilter<"Registration"> | string
-  discordUsername?: Prisma.StringNullableFilter<"Registration"> | string | null
-  phone?: Prisma.StringNullableFilter<"Registration"> | string | null
+  discordUsername?: Prisma.StringFilter<"Registration"> | string
+  dni?: Prisma.StringFilter<"Registration"> | string
+  dniNormalized?: Prisma.StringFilter<"Registration"> | string
+  postalCode?: Prisma.StringFilter<"Registration"> | string
   acceptedTerms?: Prisma.BoolFilter<"Registration"> | boolean
   acceptedPrivacy?: Prisma.BoolFilter<"Registration"> | boolean
   status?: Prisma.EnumRegistrationStatusFilter<"Registration"> | $Enums.RegistrationStatus
@@ -355,8 +371,10 @@ export type RegistrationOrderByWithRelationInput = {
   emailNormalized?: Prisma.SortOrder
   epicUsername?: Prisma.SortOrder
   epicUsernameNormalized?: Prisma.SortOrder
-  discordUsername?: Prisma.SortOrderInput | Prisma.SortOrder
-  phone?: Prisma.SortOrderInput | Prisma.SortOrder
+  discordUsername?: Prisma.SortOrder
+  dni?: Prisma.SortOrder
+  dniNormalized?: Prisma.SortOrder
+  postalCode?: Prisma.SortOrder
   acceptedTerms?: Prisma.SortOrder
   acceptedPrivacy?: Prisma.SortOrder
   status?: Prisma.SortOrder
@@ -378,6 +396,7 @@ export type RegistrationWhereUniqueInput = Prisma.AtLeast<{
   stripePaymentIntentId?: string
   tournamentId_emailNormalized?: Prisma.RegistrationTournamentIdEmailNormalizedCompoundUniqueInput
   tournamentId_epicUsernameNormalized?: Prisma.RegistrationTournamentIdEpicUsernameNormalizedCompoundUniqueInput
+  tournamentId_dniNormalized?: Prisma.RegistrationTournamentIdDniNormalizedCompoundUniqueInput
   AND?: Prisma.RegistrationWhereInput | Prisma.RegistrationWhereInput[]
   OR?: Prisma.RegistrationWhereInput[]
   NOT?: Prisma.RegistrationWhereInput | Prisma.RegistrationWhereInput[]
@@ -387,8 +406,10 @@ export type RegistrationWhereUniqueInput = Prisma.AtLeast<{
   emailNormalized?: Prisma.StringFilter<"Registration"> | string
   epicUsername?: Prisma.StringFilter<"Registration"> | string
   epicUsernameNormalized?: Prisma.StringFilter<"Registration"> | string
-  discordUsername?: Prisma.StringNullableFilter<"Registration"> | string | null
-  phone?: Prisma.StringNullableFilter<"Registration"> | string | null
+  discordUsername?: Prisma.StringFilter<"Registration"> | string
+  dni?: Prisma.StringFilter<"Registration"> | string
+  dniNormalized?: Prisma.StringFilter<"Registration"> | string
+  postalCode?: Prisma.StringFilter<"Registration"> | string
   acceptedTerms?: Prisma.BoolFilter<"Registration"> | boolean
   acceptedPrivacy?: Prisma.BoolFilter<"Registration"> | boolean
   status?: Prisma.EnumRegistrationStatusFilter<"Registration"> | $Enums.RegistrationStatus
@@ -400,7 +421,7 @@ export type RegistrationWhereUniqueInput = Prisma.AtLeast<{
   confirmationEmailSentAt?: Prisma.DateTimeNullableFilter<"Registration"> | Date | string | null
   confirmationEmailLastError?: Prisma.StringNullableFilter<"Registration"> | string | null
   tournament?: Prisma.XOR<Prisma.TournamentScalarRelationFilter, Prisma.TournamentWhereInput>
-}, "id" | "stripeCheckoutSessionId" | "stripePaymentIntentId" | "tournamentId_emailNormalized" | "tournamentId_epicUsernameNormalized">
+}, "id" | "stripeCheckoutSessionId" | "stripePaymentIntentId" | "tournamentId_emailNormalized" | "tournamentId_epicUsernameNormalized" | "tournamentId_dniNormalized">
 
 export type RegistrationOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -410,8 +431,10 @@ export type RegistrationOrderByWithAggregationInput = {
   emailNormalized?: Prisma.SortOrder
   epicUsername?: Prisma.SortOrder
   epicUsernameNormalized?: Prisma.SortOrder
-  discordUsername?: Prisma.SortOrderInput | Prisma.SortOrder
-  phone?: Prisma.SortOrderInput | Prisma.SortOrder
+  discordUsername?: Prisma.SortOrder
+  dni?: Prisma.SortOrder
+  dniNormalized?: Prisma.SortOrder
+  postalCode?: Prisma.SortOrder
   acceptedTerms?: Prisma.SortOrder
   acceptedPrivacy?: Prisma.SortOrder
   status?: Prisma.SortOrder
@@ -442,8 +465,10 @@ export type RegistrationScalarWhereWithAggregatesInput = {
   emailNormalized?: Prisma.StringWithAggregatesFilter<"Registration"> | string
   epicUsername?: Prisma.StringWithAggregatesFilter<"Registration"> | string
   epicUsernameNormalized?: Prisma.StringWithAggregatesFilter<"Registration"> | string
-  discordUsername?: Prisma.StringNullableWithAggregatesFilter<"Registration"> | string | null
-  phone?: Prisma.StringNullableWithAggregatesFilter<"Registration"> | string | null
+  discordUsername?: Prisma.StringWithAggregatesFilter<"Registration"> | string
+  dni?: Prisma.StringWithAggregatesFilter<"Registration"> | string
+  dniNormalized?: Prisma.StringWithAggregatesFilter<"Registration"> | string
+  postalCode?: Prisma.StringWithAggregatesFilter<"Registration"> | string
   acceptedTerms?: Prisma.BoolWithAggregatesFilter<"Registration"> | boolean
   acceptedPrivacy?: Prisma.BoolWithAggregatesFilter<"Registration"> | boolean
   status?: Prisma.EnumRegistrationStatusWithAggregatesFilter<"Registration"> | $Enums.RegistrationStatus
@@ -465,8 +490,10 @@ export type RegistrationCreateInput = {
   emailNormalized: string
   epicUsername: string
   epicUsernameNormalized: string
-  discordUsername?: string | null
-  phone?: string | null
+  discordUsername: string
+  dni: string
+  dniNormalized: string
+  postalCode: string
   acceptedTerms: boolean
   acceptedPrivacy: boolean
   status?: $Enums.RegistrationStatus
@@ -490,8 +517,10 @@ export type RegistrationUncheckedCreateInput = {
   emailNormalized: string
   epicUsername: string
   epicUsernameNormalized: string
-  discordUsername?: string | null
-  phone?: string | null
+  discordUsername: string
+  dni: string
+  dniNormalized: string
+  postalCode: string
   acceptedTerms: boolean
   acceptedPrivacy: boolean
   status?: $Enums.RegistrationStatus
@@ -513,8 +542,10 @@ export type RegistrationUpdateInput = {
   emailNormalized?: Prisma.StringFieldUpdateOperationsInput | string
   epicUsername?: Prisma.StringFieldUpdateOperationsInput | string
   epicUsernameNormalized?: Prisma.StringFieldUpdateOperationsInput | string
-  discordUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  discordUsername?: Prisma.StringFieldUpdateOperationsInput | string
+  dni?: Prisma.StringFieldUpdateOperationsInput | string
+  dniNormalized?: Prisma.StringFieldUpdateOperationsInput | string
+  postalCode?: Prisma.StringFieldUpdateOperationsInput | string
   acceptedTerms?: Prisma.BoolFieldUpdateOperationsInput | boolean
   acceptedPrivacy?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumRegistrationStatusFieldUpdateOperationsInput | $Enums.RegistrationStatus
@@ -538,8 +569,10 @@ export type RegistrationUncheckedUpdateInput = {
   emailNormalized?: Prisma.StringFieldUpdateOperationsInput | string
   epicUsername?: Prisma.StringFieldUpdateOperationsInput | string
   epicUsernameNormalized?: Prisma.StringFieldUpdateOperationsInput | string
-  discordUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  discordUsername?: Prisma.StringFieldUpdateOperationsInput | string
+  dni?: Prisma.StringFieldUpdateOperationsInput | string
+  dniNormalized?: Prisma.StringFieldUpdateOperationsInput | string
+  postalCode?: Prisma.StringFieldUpdateOperationsInput | string
   acceptedTerms?: Prisma.BoolFieldUpdateOperationsInput | boolean
   acceptedPrivacy?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumRegistrationStatusFieldUpdateOperationsInput | $Enums.RegistrationStatus
@@ -562,8 +595,10 @@ export type RegistrationCreateManyInput = {
   emailNormalized: string
   epicUsername: string
   epicUsernameNormalized: string
-  discordUsername?: string | null
-  phone?: string | null
+  discordUsername: string
+  dni: string
+  dniNormalized: string
+  postalCode: string
   acceptedTerms: boolean
   acceptedPrivacy: boolean
   status?: $Enums.RegistrationStatus
@@ -585,8 +620,10 @@ export type RegistrationUpdateManyMutationInput = {
   emailNormalized?: Prisma.StringFieldUpdateOperationsInput | string
   epicUsername?: Prisma.StringFieldUpdateOperationsInput | string
   epicUsernameNormalized?: Prisma.StringFieldUpdateOperationsInput | string
-  discordUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  discordUsername?: Prisma.StringFieldUpdateOperationsInput | string
+  dni?: Prisma.StringFieldUpdateOperationsInput | string
+  dniNormalized?: Prisma.StringFieldUpdateOperationsInput | string
+  postalCode?: Prisma.StringFieldUpdateOperationsInput | string
   acceptedTerms?: Prisma.BoolFieldUpdateOperationsInput | boolean
   acceptedPrivacy?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumRegistrationStatusFieldUpdateOperationsInput | $Enums.RegistrationStatus
@@ -609,8 +646,10 @@ export type RegistrationUncheckedUpdateManyInput = {
   emailNormalized?: Prisma.StringFieldUpdateOperationsInput | string
   epicUsername?: Prisma.StringFieldUpdateOperationsInput | string
   epicUsernameNormalized?: Prisma.StringFieldUpdateOperationsInput | string
-  discordUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  discordUsername?: Prisma.StringFieldUpdateOperationsInput | string
+  dni?: Prisma.StringFieldUpdateOperationsInput | string
+  dniNormalized?: Prisma.StringFieldUpdateOperationsInput | string
+  postalCode?: Prisma.StringFieldUpdateOperationsInput | string
   acceptedTerms?: Prisma.BoolFieldUpdateOperationsInput | boolean
   acceptedPrivacy?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumRegistrationStatusFieldUpdateOperationsInput | $Enums.RegistrationStatus
@@ -645,6 +684,11 @@ export type RegistrationTournamentIdEpicUsernameNormalizedCompoundUniqueInput = 
   epicUsernameNormalized: string
 }
 
+export type RegistrationTournamentIdDniNormalizedCompoundUniqueInput = {
+  tournamentId: string
+  dniNormalized: string
+}
+
 export type RegistrationCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   tournamentId?: Prisma.SortOrder
@@ -654,7 +698,9 @@ export type RegistrationCountOrderByAggregateInput = {
   epicUsername?: Prisma.SortOrder
   epicUsernameNormalized?: Prisma.SortOrder
   discordUsername?: Prisma.SortOrder
-  phone?: Prisma.SortOrder
+  dni?: Prisma.SortOrder
+  dniNormalized?: Prisma.SortOrder
+  postalCode?: Prisma.SortOrder
   acceptedTerms?: Prisma.SortOrder
   acceptedPrivacy?: Prisma.SortOrder
   status?: Prisma.SortOrder
@@ -682,7 +728,9 @@ export type RegistrationMaxOrderByAggregateInput = {
   epicUsername?: Prisma.SortOrder
   epicUsernameNormalized?: Prisma.SortOrder
   discordUsername?: Prisma.SortOrder
-  phone?: Prisma.SortOrder
+  dni?: Prisma.SortOrder
+  dniNormalized?: Prisma.SortOrder
+  postalCode?: Prisma.SortOrder
   acceptedTerms?: Prisma.SortOrder
   acceptedPrivacy?: Prisma.SortOrder
   status?: Prisma.SortOrder
@@ -706,7 +754,9 @@ export type RegistrationMinOrderByAggregateInput = {
   epicUsername?: Prisma.SortOrder
   epicUsernameNormalized?: Prisma.SortOrder
   discordUsername?: Prisma.SortOrder
-  phone?: Prisma.SortOrder
+  dni?: Prisma.SortOrder
+  dniNormalized?: Prisma.SortOrder
+  postalCode?: Prisma.SortOrder
   acceptedTerms?: Prisma.SortOrder
   acceptedPrivacy?: Prisma.SortOrder
   status?: Prisma.SortOrder
@@ -786,8 +836,10 @@ export type RegistrationCreateWithoutTournamentInput = {
   emailNormalized: string
   epicUsername: string
   epicUsernameNormalized: string
-  discordUsername?: string | null
-  phone?: string | null
+  discordUsername: string
+  dni: string
+  dniNormalized: string
+  postalCode: string
   acceptedTerms: boolean
   acceptedPrivacy: boolean
   status?: $Enums.RegistrationStatus
@@ -809,8 +861,10 @@ export type RegistrationUncheckedCreateWithoutTournamentInput = {
   emailNormalized: string
   epicUsername: string
   epicUsernameNormalized: string
-  discordUsername?: string | null
-  phone?: string | null
+  discordUsername: string
+  dni: string
+  dniNormalized: string
+  postalCode: string
   acceptedTerms: boolean
   acceptedPrivacy: boolean
   status?: $Enums.RegistrationStatus
@@ -862,8 +916,10 @@ export type RegistrationScalarWhereInput = {
   emailNormalized?: Prisma.StringFilter<"Registration"> | string
   epicUsername?: Prisma.StringFilter<"Registration"> | string
   epicUsernameNormalized?: Prisma.StringFilter<"Registration"> | string
-  discordUsername?: Prisma.StringNullableFilter<"Registration"> | string | null
-  phone?: Prisma.StringNullableFilter<"Registration"> | string | null
+  discordUsername?: Prisma.StringFilter<"Registration"> | string
+  dni?: Prisma.StringFilter<"Registration"> | string
+  dniNormalized?: Prisma.StringFilter<"Registration"> | string
+  postalCode?: Prisma.StringFilter<"Registration"> | string
   acceptedTerms?: Prisma.BoolFilter<"Registration"> | boolean
   acceptedPrivacy?: Prisma.BoolFilter<"Registration"> | boolean
   status?: Prisma.EnumRegistrationStatusFilter<"Registration"> | $Enums.RegistrationStatus
@@ -885,8 +941,10 @@ export type RegistrationCreateManyTournamentInput = {
   emailNormalized: string
   epicUsername: string
   epicUsernameNormalized: string
-  discordUsername?: string | null
-  phone?: string | null
+  discordUsername: string
+  dni: string
+  dniNormalized: string
+  postalCode: string
   acceptedTerms: boolean
   acceptedPrivacy: boolean
   status?: $Enums.RegistrationStatus
@@ -908,8 +966,10 @@ export type RegistrationUpdateWithoutTournamentInput = {
   emailNormalized?: Prisma.StringFieldUpdateOperationsInput | string
   epicUsername?: Prisma.StringFieldUpdateOperationsInput | string
   epicUsernameNormalized?: Prisma.StringFieldUpdateOperationsInput | string
-  discordUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  discordUsername?: Prisma.StringFieldUpdateOperationsInput | string
+  dni?: Prisma.StringFieldUpdateOperationsInput | string
+  dniNormalized?: Prisma.StringFieldUpdateOperationsInput | string
+  postalCode?: Prisma.StringFieldUpdateOperationsInput | string
   acceptedTerms?: Prisma.BoolFieldUpdateOperationsInput | boolean
   acceptedPrivacy?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumRegistrationStatusFieldUpdateOperationsInput | $Enums.RegistrationStatus
@@ -931,8 +991,10 @@ export type RegistrationUncheckedUpdateWithoutTournamentInput = {
   emailNormalized?: Prisma.StringFieldUpdateOperationsInput | string
   epicUsername?: Prisma.StringFieldUpdateOperationsInput | string
   epicUsernameNormalized?: Prisma.StringFieldUpdateOperationsInput | string
-  discordUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  discordUsername?: Prisma.StringFieldUpdateOperationsInput | string
+  dni?: Prisma.StringFieldUpdateOperationsInput | string
+  dniNormalized?: Prisma.StringFieldUpdateOperationsInput | string
+  postalCode?: Prisma.StringFieldUpdateOperationsInput | string
   acceptedTerms?: Prisma.BoolFieldUpdateOperationsInput | boolean
   acceptedPrivacy?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumRegistrationStatusFieldUpdateOperationsInput | $Enums.RegistrationStatus
@@ -954,8 +1016,10 @@ export type RegistrationUncheckedUpdateManyWithoutTournamentInput = {
   emailNormalized?: Prisma.StringFieldUpdateOperationsInput | string
   epicUsername?: Prisma.StringFieldUpdateOperationsInput | string
   epicUsernameNormalized?: Prisma.StringFieldUpdateOperationsInput | string
-  discordUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  discordUsername?: Prisma.StringFieldUpdateOperationsInput | string
+  dni?: Prisma.StringFieldUpdateOperationsInput | string
+  dniNormalized?: Prisma.StringFieldUpdateOperationsInput | string
+  postalCode?: Prisma.StringFieldUpdateOperationsInput | string
   acceptedTerms?: Prisma.BoolFieldUpdateOperationsInput | boolean
   acceptedPrivacy?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumRegistrationStatusFieldUpdateOperationsInput | $Enums.RegistrationStatus
@@ -981,7 +1045,9 @@ export type RegistrationSelect<ExtArgs extends runtime.Types.Extensions.Internal
   epicUsername?: boolean
   epicUsernameNormalized?: boolean
   discordUsername?: boolean
-  phone?: boolean
+  dni?: boolean
+  dniNormalized?: boolean
+  postalCode?: boolean
   acceptedTerms?: boolean
   acceptedPrivacy?: boolean
   status?: boolean
@@ -1006,7 +1072,9 @@ export type RegistrationSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   epicUsername?: boolean
   epicUsernameNormalized?: boolean
   discordUsername?: boolean
-  phone?: boolean
+  dni?: boolean
+  dniNormalized?: boolean
+  postalCode?: boolean
   acceptedTerms?: boolean
   acceptedPrivacy?: boolean
   status?: boolean
@@ -1031,7 +1099,9 @@ export type RegistrationSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   epicUsername?: boolean
   epicUsernameNormalized?: boolean
   discordUsername?: boolean
-  phone?: boolean
+  dni?: boolean
+  dniNormalized?: boolean
+  postalCode?: boolean
   acceptedTerms?: boolean
   acceptedPrivacy?: boolean
   status?: boolean
@@ -1056,7 +1126,9 @@ export type RegistrationSelectScalar = {
   epicUsername?: boolean
   epicUsernameNormalized?: boolean
   discordUsername?: boolean
-  phone?: boolean
+  dni?: boolean
+  dniNormalized?: boolean
+  postalCode?: boolean
   acceptedTerms?: boolean
   acceptedPrivacy?: boolean
   status?: boolean
@@ -1071,7 +1143,7 @@ export type RegistrationSelectScalar = {
   confirmationEmailLastError?: boolean
 }
 
-export type RegistrationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tournamentId" | "fullName" | "email" | "emailNormalized" | "epicUsername" | "epicUsernameNormalized" | "discordUsername" | "phone" | "acceptedTerms" | "acceptedPrivacy" | "status" | "amountCents" | "currency" | "stripeCheckoutSessionId" | "stripePaymentIntentId" | "createdAt" | "updatedAt" | "paidAt" | "confirmationEmailSentAt" | "confirmationEmailLastError", ExtArgs["result"]["registration"]>
+export type RegistrationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tournamentId" | "fullName" | "email" | "emailNormalized" | "epicUsername" | "epicUsernameNormalized" | "discordUsername" | "dni" | "dniNormalized" | "postalCode" | "acceptedTerms" | "acceptedPrivacy" | "status" | "amountCents" | "currency" | "stripeCheckoutSessionId" | "stripePaymentIntentId" | "createdAt" | "updatedAt" | "paidAt" | "confirmationEmailSentAt" | "confirmationEmailLastError", ExtArgs["result"]["registration"]>
 export type RegistrationInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   tournament?: boolean | Prisma.TournamentDefaultArgs<ExtArgs>
 }
@@ -1095,8 +1167,10 @@ export type $RegistrationPayload<ExtArgs extends runtime.Types.Extensions.Intern
     emailNormalized: string
     epicUsername: string
     epicUsernameNormalized: string
-    discordUsername: string | null
-    phone: string | null
+    discordUsername: string
+    dni: string
+    dniNormalized: string
+    postalCode: string
     acceptedTerms: boolean
     acceptedPrivacy: boolean
     status: $Enums.RegistrationStatus
@@ -1541,7 +1615,9 @@ export interface RegistrationFieldRefs {
   readonly epicUsername: Prisma.FieldRef<"Registration", 'String'>
   readonly epicUsernameNormalized: Prisma.FieldRef<"Registration", 'String'>
   readonly discordUsername: Prisma.FieldRef<"Registration", 'String'>
-  readonly phone: Prisma.FieldRef<"Registration", 'String'>
+  readonly dni: Prisma.FieldRef<"Registration", 'String'>
+  readonly dniNormalized: Prisma.FieldRef<"Registration", 'String'>
+  readonly postalCode: Prisma.FieldRef<"Registration", 'String'>
   readonly acceptedTerms: Prisma.FieldRef<"Registration", 'Boolean'>
   readonly acceptedPrivacy: Prisma.FieldRef<"Registration", 'Boolean'>
   readonly status: Prisma.FieldRef<"Registration", 'RegistrationStatus'>

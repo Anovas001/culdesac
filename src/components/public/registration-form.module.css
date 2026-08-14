@@ -96,6 +96,20 @@
   box-shadow: 0 0 0 3px rgb(122 0 255 / 16%);
 }
 
+.identityInput {
+  text-transform: uppercase;
+}
+
+.dataNote {
+  padding: 0.8rem 0.9rem;
+  margin: 1rem 0 0;
+  color: #595961;
+  background: #f4f4f7;
+  border-left: 3px solid #7a00ff;
+  font-size: 0.73rem;
+  line-height: 1.5;
+}
+
 .wideField {
   grid-column: 1 / -1;
 }

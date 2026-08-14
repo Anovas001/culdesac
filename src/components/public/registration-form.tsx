@@ -50,26 +50,47 @@ export function RegistrationForm({ priceLabel }: RegistrationFormProps) {
 
       <div className={styles.fields}>
         <label>
-          <span>Nom complet *</span>
+          <span>Nom i cognoms *</span>
           <input name="fullName" autoComplete="name" placeholder="El teu nom i cognoms" required />
+        </label>
+        <label>
+          <span>DNI / NIE *</span>
+          <input
+            className={styles.identityInput}
+            name="dni"
+            autoComplete="off"
+            placeholder="12345678Z"
+            maxLength={12}
+            required
+          />
         </label>
         <label>
           <span>Correu electrònic *</span>
           <input name="email" type="email" autoComplete="email" placeholder="tu@correu.cat" required />
         </label>
         <label>
-          <span>Usuari d’Epic Games *</span>
+          <span>Nickname de Fortnite *</span>
           <input name="epicUsername" autoComplete="off" placeholder="El teu nom dins del joc" required />
         </label>
         <label>
-          <span>Usuari de Discord</span>
-          <input name="discordUsername" autoComplete="off" placeholder="usuari" />
+          <span>Tag de Discord *</span>
+          <input name="discordUsername" autoComplete="off" placeholder="usuari" required />
         </label>
-        <label className={styles.wideField}>
-          <span>Telèfon</span>
-          <input name="phone" type="tel" autoComplete="tel" placeholder="600 000 000" />
+        <label>
+          <span>Codi postal *</span>
+          <input
+            name="postalCode"
+            inputMode="numeric"
+            autoComplete="postal-code"
+            placeholder="08001"
+            pattern="[0-9]{5}"
+            maxLength={5}
+            required
+          />
         </label>
       </div>
+
+      <p className={styles.dataNote}>El DNI/NIE s’utilitza per identificar la inscripció i evitar duplicats. No s’envia a Stripe ni apareix al correu de confirmació.</p>
 
       <div className={styles.consents}>
         <label>
@@ -78,7 +99,7 @@ export function RegistrationForm({ priceLabel }: RegistrationFormProps) {
         </label>
         <label>
           <input name="acceptedPrivacy" type="checkbox" required />
-          <span>He llegit i accepto la <a href="/legal/privacy" target="_blank">política de privacitat</a>.</span>
+          <span>Confirmo que he llegit la <a href="/legal/privacy" target="_blank">política de privacitat</a>.</span>
         </label>
       </div>
 

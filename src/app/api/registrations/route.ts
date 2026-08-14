@@ -9,7 +9,7 @@ import { db } from "@/lib/db";
 export async function POST(request: Request) {
   try {
     const parsed = registrationSchema.safeParse(await request.json());
-    if (!parsed.success) return NextResponse.json({ error: "Revisa les dades del formulari.", fields: parsed.error.flatten().fieldErrors }, { status: 422 });
+    if (!parsed.success) return NextResponse.json({ error: parsed.error.issues[0]?.message ?? "Revisa les dades del formulari.", fields: parsed.error.flatten().fieldErrors }, { status: 422 });
     const result = await createOrReuseRegistration(prismaRegistrationRepository, parsed.data);
     const stripe = getStripe(); const env = getServerEnv();
     const current = await db.registration.findUniqueOrThrow({ where: { id: result.registration.id } });

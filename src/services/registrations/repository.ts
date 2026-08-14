@@ -31,11 +31,11 @@ export const prismaRegistrationRepository: RegistrationRepository = {
     return settings?.activeTournament ? toActiveTournament(settings.activeTournament) : null;
   },
 
-  async findExisting(tournamentId, emailNormalized, epicUsernameNormalized) {
+  async findExisting(tournamentId, emailNormalized, epicUsernameNormalized, dniNormalized) {
     const registration = await db.registration.findFirst({
       where: {
         tournamentId,
-        OR: [{ emailNormalized }, { epicUsernameNormalized }],
+        OR: [{ emailNormalized }, { epicUsernameNormalized }, { dniNormalized }],
       },
       select: { id: true, status: true },
     });
@@ -52,7 +52,9 @@ export const prismaRegistrationRepository: RegistrationRepository = {
         epicUsername: data.epicUsername,
         epicUsernameNormalized: data.epicUsernameNormalized,
         discordUsername: data.discordUsername,
-        phone: data.phone,
+        dni: data.dni,
+        dniNormalized: data.dniNormalized,
+        postalCode: data.postalCode,
         acceptedTerms: data.acceptedTerms,
         acceptedPrivacy: data.acceptedPrivacy,
         amountCents: data.amountCents,
@@ -61,6 +63,25 @@ export const prismaRegistrationRepository: RegistrationRepository = {
       select: { id: true, status: true },
     });
     return toExistingRegistration(registration);
+  },
+
+  async updateParticipant(registrationId, participant) {
+    await db.registration.update({
+      where: { id: registrationId },
+      data: {
+        fullName: participant.fullName,
+        email: participant.email,
+        emailNormalized: participant.emailNormalized,
+        epicUsername: participant.epicUsername,
+        epicUsernameNormalized: participant.epicUsernameNormalized,
+        discordUsername: participant.discordUsername,
+        dni: participant.dni,
+        dniNormalized: participant.dniNormalized,
+        postalCode: participant.postalCode,
+        acceptedTerms: participant.acceptedTerms,
+        acceptedPrivacy: participant.acceptedPrivacy,
+      },
+    });
   },
 
   async reactivate(registrationId) {

@@ -1,8 +1,96 @@
 import Link from "next/link";
 import { cookies } from "next/headers";
 import { notFound, redirect } from "next/navigation";
+
+import { resendConfirmation } from "../../../actions";
 import { cookieName, isAdmin } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { formatMoney } from "@/lib/money";
-import { resendConfirmation } from "../../../actions";
-export default async function Registrations({params,searchParams}:{params:Promise<{id:string}>,searchParams:Promise<{status?:string}>}) { if(!await isAdmin((await cookies()).get(cookieName)?.value)) redirect("/admin/login"); const {id}=await params; const {status}=await searchParams; const tournament=await db.tournament.findUnique({where:{id}}); if(!tournament)notFound(); const registrations=await db.registration.findMany({where:{tournamentId:id,...(status?{status:status as "PAID"}:{})},orderBy:{createdAt:"desc"}}); return <main className="admin-shell"><Link href={`/admin/tournaments/${id}`}>← {tournament.name}</Link><div className="section-head"><h1>Inscripcions</h1><div className="filters"><Link href={`/admin/tournaments/${id}/registrations`}>Totes</Link>{["PAID","PENDING_PAYMENT","EXPIRED","REFUNDED"].map(s=><Link key={s} href={`/admin/tournaments/${id}/registrations?status=${s}`}>{s}</Link>)}</div></div><section className="admin-card table-wrap"><table><thead><tr><th>Participant</th><th>Contacte</th><th>Pagament</th><th>Data</th><th></th></tr></thead><tbody>{registrations.map(r=><tr key={r.id}><td><strong>{r.fullName}</strong><br/><small>Epic: {r.epicUsername}</small>{r.discordUsername&&<><br/><small>Discord: {r.discordUsername}</small></>}</td><td>{r.email}<br/>{r.phone&&<small>{r.phone}</small>}</td><td><span className={`badge ${r.status.toLowerCase()}`}>{r.status}</span><br/><small>{formatMoney(r.amountCents,r.currency)}</small></td><td>{new Intl.DateTimeFormat("ca-ES",{dateStyle:"short",timeStyle:"short"}).format(r.createdAt)}</td><td>{r.status==="PAID"&&<form action={resendConfirmation}><input type="hidden" name="id" value={r.id}/><button>Reenviar email</button></form>}</td></tr>)}</tbody></table>{registrations.length===0&&<p>No hi ha inscripcions amb aquest filtre.</p>}</section></main>; }
+
+const filters = ["PAID", "PENDING_PAYMENT", "EXPIRED", "REFUNDED"] as const;
+
+export default async function Registrations({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ id: string }>;
+  searchParams: Promise<{ status?: string }>;
+}) {
+  if (!await isAdmin((await cookies()).get(cookieName)?.value)) redirect("/admin/login");
+
+  const { id } = await params;
+  const { status } = await searchParams;
+  const activeFilter = filters.find((filter) => filter === status);
+  const tournament = await db.tournament.findUnique({ where: { id } });
+  if (!tournament) notFound();
+
+  const registrations = await db.registration.findMany({
+    where: { tournamentId: id, ...(activeFilter ? { status: activeFilter } : {}) },
+    orderBy: { createdAt: "desc" },
+  });
+
+  return (
+    <main className="admin-shell">
+      <Link href={`/admin/tournaments/${id}`}>← {tournament.name}</Link>
+      <div className="section-head">
+        <div>
+          <p className="eyebrow">PARTICIPANTS</p>
+          <h1>Inscripcions</h1>
+        </div>
+        <div className="filters">
+          <Link href={`/admin/tournaments/${id}/registrations`}>Totes</Link>
+          {filters.map((filter) => (
+            <Link key={filter} href={`/admin/tournaments/${id}/registrations?status=${filter}`}>
+              {filter}
+            </Link>
+          ))}
+        </div>
+      </div>
+
+      <section className="admin-card table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Participant</th>
+              <th>Identificació</th>
+              <th>Contacte</th>
+              <th>Pagament</th>
+              <th>Data</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {registrations.map((registration) => (
+              <tr key={registration.id}>
+                <td>
+                  <strong>{registration.fullName}</strong><br />
+                  <small>Fortnite: {registration.epicUsername}</small><br />
+                  <small>Discord: {registration.discordUsername}</small>
+                </td>
+                <td>
+                  <strong>{registration.dni}</strong><br />
+                  <small>CP {registration.postalCode}</small>
+                </td>
+                <td>{registration.email}</td>
+                <td>
+                  <span className={`badge ${registration.status.toLowerCase()}`}>{registration.status}</span><br />
+                  <small>{formatMoney(registration.amountCents, registration.currency)}</small>
+                </td>
+                <td>{new Intl.DateTimeFormat("ca-ES", { dateStyle: "short", timeStyle: "short" }).format(registration.createdAt)}</td>
+                <td>
+                  {registration.status === "PAID" && (
+                    <form action={resendConfirmation}>
+                      <input type="hidden" name="id" value={registration.id} />
+                      <button>Reenviar email</button>
+                    </form>
+                  )}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        {registrations.length === 0 && <p>No hi ha inscripcions amb aquest filtre.</p>}
+      </section>
+    </main>
+  );
+}

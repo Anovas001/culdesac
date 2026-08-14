@@ -58,8 +58,10 @@ model Registration {
   emailNormalized            String
   epicUsername               String
   epicUsernameNormalized     String
-  discordUsername            String?
-  phone                      String?
+  discordUsername            String
+  dni                        String
+  dniNormalized              String
+  postalCode                 String             @db.VarChar(5)
   acceptedTerms              Boolean
   acceptedPrivacy            Boolean
   status                     RegistrationStatus @default(PENDING_PAYMENT)
@@ -76,6 +78,7 @@ model Registration {
 
   @@unique([tournamentId, emailNormalized])
   @@unique([tournamentId, epicUsernameNormalized])
+  @@unique([tournamentId, dniNormalized])
   @@index([tournamentId, status])
 }
 
