@@ -43,6 +43,10 @@ export type TournamentMinAggregateOutputType = {
   headline: string | null
   description: string | null
   rules: string | null
+  nameEs: string | null
+  headlineEs: string | null
+  descriptionEs: string | null
+  rulesEs: string | null
   eventDate: Date | null
   priceCents: number | null
   currency: string | null
@@ -60,6 +64,10 @@ export type TournamentMaxAggregateOutputType = {
   headline: string | null
   description: string | null
   rules: string | null
+  nameEs: string | null
+  headlineEs: string | null
+  descriptionEs: string | null
+  rulesEs: string | null
   eventDate: Date | null
   priceCents: number | null
   currency: string | null
@@ -77,6 +85,10 @@ export type TournamentCountAggregateOutputType = {
   headline: number
   description: number
   rules: number
+  nameEs: number
+  headlineEs: number
+  descriptionEs: number
+  rulesEs: number
   eventDate: number
   priceCents: number
   currency: number
@@ -106,6 +118,10 @@ export type TournamentMinAggregateInputType = {
   headline?: true
   description?: true
   rules?: true
+  nameEs?: true
+  headlineEs?: true
+  descriptionEs?: true
+  rulesEs?: true
   eventDate?: true
   priceCents?: true
   currency?: true
@@ -123,6 +139,10 @@ export type TournamentMaxAggregateInputType = {
   headline?: true
   description?: true
   rules?: true
+  nameEs?: true
+  headlineEs?: true
+  descriptionEs?: true
+  rulesEs?: true
   eventDate?: true
   priceCents?: true
   currency?: true
@@ -140,6 +160,10 @@ export type TournamentCountAggregateInputType = {
   headline?: true
   description?: true
   rules?: true
+  nameEs?: true
+  headlineEs?: true
+  descriptionEs?: true
+  rulesEs?: true
   eventDate?: true
   priceCents?: true
   currency?: true
@@ -244,6 +268,10 @@ export type TournamentGroupByOutputType = {
   headline: string
   description: string
   rules: string
+  nameEs: string | null
+  headlineEs: string | null
+  descriptionEs: string | null
+  rulesEs: string | null
   eventDate: Date
   priceCents: number
   currency: string
@@ -284,6 +312,10 @@ export type TournamentWhereInput = {
   headline?: Prisma.StringFilter<"Tournament"> | string
   description?: Prisma.StringFilter<"Tournament"> | string
   rules?: Prisma.StringFilter<"Tournament"> | string
+  nameEs?: Prisma.StringNullableFilter<"Tournament"> | string | null
+  headlineEs?: Prisma.StringNullableFilter<"Tournament"> | string | null
+  descriptionEs?: Prisma.StringNullableFilter<"Tournament"> | string | null
+  rulesEs?: Prisma.StringNullableFilter<"Tournament"> | string | null
   eventDate?: Prisma.DateTimeFilter<"Tournament"> | Date | string
   priceCents?: Prisma.IntFilter<"Tournament"> | number
   currency?: Prisma.StringFilter<"Tournament"> | string
@@ -303,6 +335,10 @@ export type TournamentOrderByWithRelationInput = {
   headline?: Prisma.SortOrder
   description?: Prisma.SortOrder
   rules?: Prisma.SortOrder
+  nameEs?: Prisma.SortOrderInput | Prisma.SortOrder
+  headlineEs?: Prisma.SortOrderInput | Prisma.SortOrder
+  descriptionEs?: Prisma.SortOrderInput | Prisma.SortOrder
+  rulesEs?: Prisma.SortOrderInput | Prisma.SortOrder
   eventDate?: Prisma.SortOrder
   priceCents?: Prisma.SortOrder
   currency?: Prisma.SortOrder
@@ -325,6 +361,10 @@ export type TournamentWhereUniqueInput = Prisma.AtLeast<{
   headline?: Prisma.StringFilter<"Tournament"> | string
   description?: Prisma.StringFilter<"Tournament"> | string
   rules?: Prisma.StringFilter<"Tournament"> | string
+  nameEs?: Prisma.StringNullableFilter<"Tournament"> | string | null
+  headlineEs?: Prisma.StringNullableFilter<"Tournament"> | string | null
+  descriptionEs?: Prisma.StringNullableFilter<"Tournament"> | string | null
+  rulesEs?: Prisma.StringNullableFilter<"Tournament"> | string | null
   eventDate?: Prisma.DateTimeFilter<"Tournament"> | Date | string
   priceCents?: Prisma.IntFilter<"Tournament"> | number
   currency?: Prisma.StringFilter<"Tournament"> | string
@@ -344,6 +384,10 @@ export type TournamentOrderByWithAggregationInput = {
   headline?: Prisma.SortOrder
   description?: Prisma.SortOrder
   rules?: Prisma.SortOrder
+  nameEs?: Prisma.SortOrderInput | Prisma.SortOrder
+  headlineEs?: Prisma.SortOrderInput | Prisma.SortOrder
+  descriptionEs?: Prisma.SortOrderInput | Prisma.SortOrder
+  rulesEs?: Prisma.SortOrderInput | Prisma.SortOrder
   eventDate?: Prisma.SortOrder
   priceCents?: Prisma.SortOrder
   currency?: Prisma.SortOrder
@@ -369,6 +413,10 @@ export type TournamentScalarWhereWithAggregatesInput = {
   headline?: Prisma.StringWithAggregatesFilter<"Tournament"> | string
   description?: Prisma.StringWithAggregatesFilter<"Tournament"> | string
   rules?: Prisma.StringWithAggregatesFilter<"Tournament"> | string
+  nameEs?: Prisma.StringNullableWithAggregatesFilter<"Tournament"> | string | null
+  headlineEs?: Prisma.StringNullableWithAggregatesFilter<"Tournament"> | string | null
+  descriptionEs?: Prisma.StringNullableWithAggregatesFilter<"Tournament"> | string | null
+  rulesEs?: Prisma.StringNullableWithAggregatesFilter<"Tournament"> | string | null
   eventDate?: Prisma.DateTimeWithAggregatesFilter<"Tournament"> | Date | string
   priceCents?: Prisma.IntWithAggregatesFilter<"Tournament"> | number
   currency?: Prisma.StringWithAggregatesFilter<"Tournament"> | string
@@ -386,6 +434,10 @@ export type TournamentCreateInput = {
   headline: string
   description: string
   rules: string
+  nameEs?: string | null
+  headlineEs?: string | null
+  descriptionEs?: string | null
+  rulesEs?: string | null
   eventDate: Date | string
   priceCents: number
   currency?: string
@@ -405,6 +457,10 @@ export type TournamentUncheckedCreateInput = {
   headline: string
   description: string
   rules: string
+  nameEs?: string | null
+  headlineEs?: string | null
+  descriptionEs?: string | null
+  rulesEs?: string | null
   eventDate: Date | string
   priceCents: number
   currency?: string
@@ -424,6 +480,10 @@ export type TournamentUpdateInput = {
   headline?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   rules?: Prisma.StringFieldUpdateOperationsInput | string
+  nameEs?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  headlineEs?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  descriptionEs?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rulesEs?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   eventDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   priceCents?: Prisma.IntFieldUpdateOperationsInput | number
   currency?: Prisma.StringFieldUpdateOperationsInput | string
@@ -443,6 +503,10 @@ export type TournamentUncheckedUpdateInput = {
   headline?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   rules?: Prisma.StringFieldUpdateOperationsInput | string
+  nameEs?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  headlineEs?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  descriptionEs?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rulesEs?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   eventDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   priceCents?: Prisma.IntFieldUpdateOperationsInput | number
   currency?: Prisma.StringFieldUpdateOperationsInput | string
@@ -462,6 +526,10 @@ export type TournamentCreateManyInput = {
   headline: string
   description: string
   rules: string
+  nameEs?: string | null
+  headlineEs?: string | null
+  descriptionEs?: string | null
+  rulesEs?: string | null
   eventDate: Date | string
   priceCents: number
   currency?: string
@@ -479,6 +547,10 @@ export type TournamentUpdateManyMutationInput = {
   headline?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   rules?: Prisma.StringFieldUpdateOperationsInput | string
+  nameEs?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  headlineEs?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  descriptionEs?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rulesEs?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   eventDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   priceCents?: Prisma.IntFieldUpdateOperationsInput | number
   currency?: Prisma.StringFieldUpdateOperationsInput | string
@@ -496,6 +568,10 @@ export type TournamentUncheckedUpdateManyInput = {
   headline?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   rules?: Prisma.StringFieldUpdateOperationsInput | string
+  nameEs?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  headlineEs?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  descriptionEs?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rulesEs?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   eventDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   priceCents?: Prisma.IntFieldUpdateOperationsInput | number
   currency?: Prisma.StringFieldUpdateOperationsInput | string
@@ -513,6 +589,10 @@ export type TournamentCountOrderByAggregateInput = {
   headline?: Prisma.SortOrder
   description?: Prisma.SortOrder
   rules?: Prisma.SortOrder
+  nameEs?: Prisma.SortOrder
+  headlineEs?: Prisma.SortOrder
+  descriptionEs?: Prisma.SortOrder
+  rulesEs?: Prisma.SortOrder
   eventDate?: Prisma.SortOrder
   priceCents?: Prisma.SortOrder
   currency?: Prisma.SortOrder
@@ -535,6 +615,10 @@ export type TournamentMaxOrderByAggregateInput = {
   headline?: Prisma.SortOrder
   description?: Prisma.SortOrder
   rules?: Prisma.SortOrder
+  nameEs?: Prisma.SortOrder
+  headlineEs?: Prisma.SortOrder
+  descriptionEs?: Prisma.SortOrder
+  rulesEs?: Prisma.SortOrder
   eventDate?: Prisma.SortOrder
   priceCents?: Prisma.SortOrder
   currency?: Prisma.SortOrder
@@ -552,6 +636,10 @@ export type TournamentMinOrderByAggregateInput = {
   headline?: Prisma.SortOrder
   description?: Prisma.SortOrder
   rules?: Prisma.SortOrder
+  nameEs?: Prisma.SortOrder
+  headlineEs?: Prisma.SortOrder
+  descriptionEs?: Prisma.SortOrder
+  rulesEs?: Prisma.SortOrder
   eventDate?: Prisma.SortOrder
   priceCents?: Prisma.SortOrder
   currency?: Prisma.SortOrder
@@ -581,6 +669,10 @@ export type StringFieldUpdateOperationsInput = {
   set?: string
 }
 
+export type NullableStringFieldUpdateOperationsInput = {
+  set?: string | null
+}
+
 export type DateTimeFieldUpdateOperationsInput = {
   set?: Date | string
 }
@@ -599,10 +691,6 @@ export type NullableIntFieldUpdateOperationsInput = {
   decrement?: number
   multiply?: number
   divide?: number
-}
-
-export type NullableStringFieldUpdateOperationsInput = {
-  set?: string | null
 }
 
 export type EnumTournamentStatusFieldUpdateOperationsInput = {
@@ -646,6 +734,10 @@ export type TournamentCreateWithoutActiveInSiteSettingsInput = {
   headline: string
   description: string
   rules: string
+  nameEs?: string | null
+  headlineEs?: string | null
+  descriptionEs?: string | null
+  rulesEs?: string | null
   eventDate: Date | string
   priceCents: number
   currency?: string
@@ -664,6 +756,10 @@ export type TournamentUncheckedCreateWithoutActiveInSiteSettingsInput = {
   headline: string
   description: string
   rules: string
+  nameEs?: string | null
+  headlineEs?: string | null
+  descriptionEs?: string | null
+  rulesEs?: string | null
   eventDate: Date | string
   priceCents: number
   currency?: string
@@ -698,6 +794,10 @@ export type TournamentUpdateWithoutActiveInSiteSettingsInput = {
   headline?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   rules?: Prisma.StringFieldUpdateOperationsInput | string
+  nameEs?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  headlineEs?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  descriptionEs?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rulesEs?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   eventDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   priceCents?: Prisma.IntFieldUpdateOperationsInput | number
   currency?: Prisma.StringFieldUpdateOperationsInput | string
@@ -716,6 +816,10 @@ export type TournamentUncheckedUpdateWithoutActiveInSiteSettingsInput = {
   headline?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   rules?: Prisma.StringFieldUpdateOperationsInput | string
+  nameEs?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  headlineEs?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  descriptionEs?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rulesEs?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   eventDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   priceCents?: Prisma.IntFieldUpdateOperationsInput | number
   currency?: Prisma.StringFieldUpdateOperationsInput | string
@@ -734,6 +838,10 @@ export type TournamentCreateWithoutRegistrationsInput = {
   headline: string
   description: string
   rules: string
+  nameEs?: string | null
+  headlineEs?: string | null
+  descriptionEs?: string | null
+  rulesEs?: string | null
   eventDate: Date | string
   priceCents: number
   currency?: string
@@ -752,6 +860,10 @@ export type TournamentUncheckedCreateWithoutRegistrationsInput = {
   headline: string
   description: string
   rules: string
+  nameEs?: string | null
+  headlineEs?: string | null
+  descriptionEs?: string | null
+  rulesEs?: string | null
   eventDate: Date | string
   priceCents: number
   currency?: string
@@ -786,6 +898,10 @@ export type TournamentUpdateWithoutRegistrationsInput = {
   headline?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   rules?: Prisma.StringFieldUpdateOperationsInput | string
+  nameEs?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  headlineEs?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  descriptionEs?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rulesEs?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   eventDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   priceCents?: Prisma.IntFieldUpdateOperationsInput | number
   currency?: Prisma.StringFieldUpdateOperationsInput | string
@@ -804,6 +920,10 @@ export type TournamentUncheckedUpdateWithoutRegistrationsInput = {
   headline?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   rules?: Prisma.StringFieldUpdateOperationsInput | string
+  nameEs?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  headlineEs?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  descriptionEs?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rulesEs?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   eventDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   priceCents?: Prisma.IntFieldUpdateOperationsInput | number
   currency?: Prisma.StringFieldUpdateOperationsInput | string
@@ -853,6 +973,10 @@ export type TournamentSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   headline?: boolean
   description?: boolean
   rules?: boolean
+  nameEs?: boolean
+  headlineEs?: boolean
+  descriptionEs?: boolean
+  rulesEs?: boolean
   eventDate?: boolean
   priceCents?: boolean
   currency?: boolean
@@ -873,6 +997,10 @@ export type TournamentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   headline?: boolean
   description?: boolean
   rules?: boolean
+  nameEs?: boolean
+  headlineEs?: boolean
+  descriptionEs?: boolean
+  rulesEs?: boolean
   eventDate?: boolean
   priceCents?: boolean
   currency?: boolean
@@ -890,6 +1018,10 @@ export type TournamentSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   headline?: boolean
   description?: boolean
   rules?: boolean
+  nameEs?: boolean
+  headlineEs?: boolean
+  descriptionEs?: boolean
+  rulesEs?: boolean
   eventDate?: boolean
   priceCents?: boolean
   currency?: boolean
@@ -907,6 +1039,10 @@ export type TournamentSelectScalar = {
   headline?: boolean
   description?: boolean
   rules?: boolean
+  nameEs?: boolean
+  headlineEs?: boolean
+  descriptionEs?: boolean
+  rulesEs?: boolean
   eventDate?: boolean
   priceCents?: boolean
   currency?: boolean
@@ -917,7 +1053,7 @@ export type TournamentSelectScalar = {
   updatedAt?: boolean
 }
 
-export type TournamentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "slug" | "headline" | "description" | "rules" | "eventDate" | "priceCents" | "currency" | "capacity" | "heroImageUrl" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["tournament"]>
+export type TournamentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "slug" | "headline" | "description" | "rules" | "nameEs" | "headlineEs" | "descriptionEs" | "rulesEs" | "eventDate" | "priceCents" | "currency" | "capacity" | "heroImageUrl" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["tournament"]>
 export type TournamentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   registrations?: boolean | Prisma.Tournament$registrationsArgs<ExtArgs>
   activeInSiteSettings?: boolean | Prisma.Tournament$activeInSiteSettingsArgs<ExtArgs>
@@ -939,6 +1075,10 @@ export type $TournamentPayload<ExtArgs extends runtime.Types.Extensions.Internal
     headline: string
     description: string
     rules: string
+    nameEs: string | null
+    headlineEs: string | null
+    descriptionEs: string | null
+    rulesEs: string | null
     eventDate: Date
     priceCents: number
     currency: string
@@ -1378,6 +1518,10 @@ export interface TournamentFieldRefs {
   readonly headline: Prisma.FieldRef<"Tournament", 'String'>
   readonly description: Prisma.FieldRef<"Tournament", 'String'>
   readonly rules: Prisma.FieldRef<"Tournament", 'String'>
+  readonly nameEs: Prisma.FieldRef<"Tournament", 'String'>
+  readonly headlineEs: Prisma.FieldRef<"Tournament", 'String'>
+  readonly descriptionEs: Prisma.FieldRef<"Tournament", 'String'>
+  readonly rulesEs: Prisma.FieldRef<"Tournament", 'String'>
   readonly eventDate: Prisma.FieldRef<"Tournament", 'DateTime'>
   readonly priceCents: Prisma.FieldRef<"Tournament", 'Int'>
   readonly currency: Prisma.FieldRef<"Tournament", 'String'>

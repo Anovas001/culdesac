@@ -2,36 +2,29 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 
+import { LocaleSwitcher } from "@/components/public/locale-switcher";
+import { getMessages } from "@/lib/i18n/messages";
+import { getLocale } from "@/lib/i18n/server";
+
 import styles from "./success.module.css";
 
-export const metadata: Metadata = {
-  title: "Pagament rebut",
-  description: "El pagament de la teva inscripció a Culdesac s’ha completat correctament.",
-  robots: { index: false, follow: false },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getLocale();
+  const copy = getMessages(locale).success;
+  return { title: copy.metadataTitle, description: copy.metadataDescription, robots: { index: false, follow: false } };
+}
 
-const confirmationSteps = [
-  {
-    title: "Pagament rebut",
-    description: "Stripe ha completat el pagament de manera segura.",
-  },
-  {
-    title: "Confirmació automàtica",
-    description: "Estem validant la plaça i preparant els detalls de la inscripció.",
-  },
-  {
-    title: "Revisa el teu correu",
-    description: "T’hi enviarem la confirmació i la informació necessària per competir.",
-  },
-];
+export default async function Success() {
+  const locale = await getLocale();
+  const messages = getMessages(locale);
+  const copy = getMessages(locale).success;
 
-export default function Success() {
   return (
     <main className={styles.page}>
       <div className={styles.noise} aria-hidden="true" />
 
       <header className={styles.header}>
-        <Link className={styles.brand} href="/" aria-label="Tornar a Culdesac">
+        <Link className={styles.brand} href="/" aria-label={copy.backAria}>
           <Image
             src="/brand/culdesac-logo.webp"
             alt="Culdesac"
@@ -40,9 +33,12 @@ export default function Success() {
             priority
           />
         </Link>
-        <div className={styles.secureStatus}>
-          <span aria-hidden="true">✓</span>
-          Pagament segur completat
+        <div className={styles.headerActions}>
+          <LocaleSwitcher locale={locale} returnTo="/registration/success" compact />
+          <div className={styles.secureStatus}>
+            <span aria-hidden="true">✓</span>
+            {copy.secure}
+          </div>
         </div>
       </header>
 
@@ -53,51 +49,45 @@ export default function Success() {
         <div className={styles.copy}>
           <div className={styles.receiptBadge}>
             <span aria-hidden="true">✓</span>
-            Pagament rebut
+            {copy.received}
           </div>
 
-          <p className={styles.kicker}>Inscripció completada · Culdesac</p>
-          <h1 aria-label="Ja ets dins del quadre.">
-            <span>Ja ets dins</span>
-            del quadre.
+          <p className={styles.kicker}>{copy.kicker}</p>
+          <h1 aria-label={`${copy.titleLead} ${copy.titleTail}`}>
+            <span>{copy.titleLead}</span>
+            {copy.titleTail}
           </h1>
-          <p className={styles.intro}>
-            Hem rebut el pagament i estem acabant de confirmar la teva plaça. En uns instants
-            rebràs un correu amb el comprovant i tota la informació de la inscripció.
-          </p>
+          <p className={styles.intro}>{copy.intro}</p>
 
           <div className={styles.actions}>
             <Link className={styles.primaryAction} href="/">
-              Tornar a Culdesac <span aria-hidden="true">↗</span>
+              {copy.back} <span aria-hidden="true">↗</span>
             </Link>
             <Link className={styles.secondaryAction} href="/legal/terms">
-              Consultar les normes
+              {copy.rules}
             </Link>
           </div>
 
-          <p className={styles.helpText}>
-            El correu pot trigar uns minuts. Si no el veus, revisa també la carpeta de correu
-            brossa.
-          </p>
+          <p className={styles.helpText}>{copy.help}</p>
         </div>
 
-        <aside className={styles.confirmationCard} aria-label="Estat de la inscripció">
+        <aside className={styles.confirmationCard} aria-label={copy.statusAria}>
           <div className={styles.cardHeader}>
             <Image src="/brand/culdesac-mark.webp" alt="" width={58} height={90} />
             <div>
-              <span>Estat de la plaça</span>
-              <strong>En procés</strong>
+              <span>{copy.placeStatus}</span>
+              <strong>{copy.processing}</strong>
             </div>
             <span className={styles.cardCode}>01 / 01</span>
           </div>
 
           <div className={styles.cardTitle}>
-            <p>El següent pas</p>
-            <h2>Prepara’t per competir.</h2>
+            <p>{copy.nextStep}</p>
+            <h2>{copy.prepare}</h2>
           </div>
 
           <ol className={styles.steps}>
-            {confirmationSteps.map((step, index) => (
+            {copy.steps.map((step, index) => (
               <li key={step.title}>
                 <span>{String(index + 1).padStart(2, "0")}</span>
                 <div>
@@ -110,23 +100,22 @@ export default function Success() {
 
           <div className={styles.cardFooter}>
             <span>Culdesac</span>
-            <span>Competició online · Rivalitat real</span>
+            <span>{copy.tagline}</span>
           </div>
         </aside>
       </section>
 
       <div className={styles.marquee} aria-hidden="true">
         <div>
-          <span>PAGAMENT COMPLETAT</span><i>✦</i><span>PLAÇA EN PROCÉS</span><i>✦</i><span>ENS VEIEM AL QUADRE</span><i>✦</i>
-          <span>PAGAMENT COMPLETAT</span><i>✦</i><span>PLAÇA EN PROCÉS</span><i>✦</i><span>ENS VEIEM AL QUADRE</span><i>✦</i>
+          {[...copy.marquee, ...copy.marquee].map((item, index) => <span key={`${item}-${index}`}>{item}<i>✦</i></span>)}
         </div>
       </div>
 
       <footer className={styles.footer}>
         <span>© {new Date().getFullYear()} Culdesac</span>
-        <nav aria-label="Enllaços legals">
-          <Link href="/legal/terms">Termes</Link>
-          <Link href="/legal/privacy">Privacitat</Link>
+        <nav aria-label={messages.footer.linksAria}>
+          <Link href="/legal/terms">{messages.footer.terms}</Link>
+          <Link href="/legal/privacy">{messages.footer.privacy}</Link>
         </nav>
       </footer>
     </main>

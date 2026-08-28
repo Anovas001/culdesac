@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { privacyDocument, termsDocument } from "./legal-documents";
+import { getPrivacyDocument, getTermsDocument, privacyDocument, termsDocument } from "./legal-documents";
 
 function documentText(document: typeof termsDocument): string {
   return document.sections
@@ -37,5 +37,21 @@ describe("legal document drafts", () => {
     expect(privacyDocument.isDraft).toBe(true);
     expect(documentText(termsDocument)).toContain("[[RAÓ SOCIAL]]");
     expect(documentText(privacyDocument)).toContain("[[TERMINI DE CONSERVACIÓ]]");
+  });
+
+  it("provides Spanish legal documents with the same complete structure", () => {
+    const termsEs = getTermsDocument("es");
+    const privacyEs = getPrivacyDocument("es");
+
+    expect(termsEs.title).toBe("Términos y condiciones");
+    expect(privacyEs.title).toBe("Política de privacidad");
+    expect(termsEs.sections.map((section) => section.id)).toEqual(
+      termsDocument.sections.map((section) => section.id),
+    );
+    expect(privacyEs.sections.map((section) => section.id)).toEqual(
+      privacyDocument.sections.map((section) => section.id),
+    );
+    expect(documentText(termsEs)).toContain("[[RAZÓN SOCIAL]]");
+    expect(documentText(privacyEs).toLocaleLowerCase("es")).toContain("nombre y apellidos");
   });
 });

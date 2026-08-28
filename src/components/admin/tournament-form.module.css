@@ -1,0 +1,49 @@
+.section {
+  display: grid;
+  gap: 14px;
+  margin: 0;
+  padding: 20px;
+  border: 1px solid #2c3962;
+  border-radius: 12px;
+  background: rgba(7, 11, 25, 0.42);
+}
+
+.section legend {
+  padding: 0 8px;
+  color: #dfe7ff;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.sectionHeader {
+  display: grid;
+  gap: 4px;
+}
+
+.sectionHeader strong {
+  font-size: 1rem;
+}
+
+.sectionHeader span,
+.hint {
+  color: #aebadc;
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+.submit {
+  justify-self: start;
+  min-width: 180px;
+}
+
+@media (max-width: 760px) {
+  .section {
+    padding: 16px;
+  }
+
+  .submit {
+    width: 100%;
+  }
+}

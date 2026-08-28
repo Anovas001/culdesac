@@ -29,6 +29,10 @@ model Tournament {
   headline              String
   description           String             @db.Text
   rules                 String             @db.Text
+  nameEs                String?
+  headlineEs            String?
+  descriptionEs         String?            @db.Text
+  rulesEs               String?            @db.Text
   eventDate             DateTime
   priceCents            Int
   currency              String             @default("eur") @db.VarChar(3)

@@ -1,18 +1,26 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import { LocaleSwitcher } from "@/components/public/locale-switcher";
+import type { Locale } from "@/lib/i18n/config";
+import { getMessages } from "@/lib/i18n/messages";
 import type { LegalDocument as LegalDocumentData } from "@/lib/legal-documents";
 
 import styles from "./legal.module.css";
 
-export function LegalDocument({ document }: { document: LegalDocumentData }) {
+export function LegalDocument({ document, locale, returnTo }: { document: LegalDocumentData; locale: Locale; returnTo: string }) {
+  const copy = getMessages(locale).legal;
+
   return (
     <main className={styles.page}>
       <header className={styles.header}>
-        <Link className={styles.brand} href="/" aria-label="Tornar a Culdesac">
+        <Link className={styles.brand} href="/" aria-label={copy.backAria}>
           <Image src="/brand/culdesac-logo.webp" alt="Culdesac" width={176} height={62} priority />
         </Link>
-        <Link className={styles.back} href="/">← Tornar a l’inici</Link>
+        <div className={styles.headerActions}>
+          <LocaleSwitcher locale={locale} returnTo={returnTo} compact />
+          <Link className={styles.back} href="/">← {copy.backHome}</Link>
+        </div>
       </header>
 
       <section className={styles.hero}>
@@ -27,15 +35,15 @@ export function LegalDocument({ document }: { document: LegalDocumentData }) {
         <aside className={styles.draftNotice} role="note">
           <span aria-hidden="true">!</span>
           <div>
-            <strong>Esborrany pendent de completar</strong>
-            <p>Els camps entre dobles claudàtors necessiten dades o decisions de l’organitzador. Aquest text s’ha de revisar jurídicament abans de publicar-lo com a versió definitiva.</p>
+            <strong>{copy.draftTitle}</strong>
+            <p>{copy.draftDescription}</p>
           </div>
         </aside>
       )}
 
       <div className={styles.layout}>
-        <nav className={styles.toc} aria-label={`Índex de ${document.title}`}>
-          <span>En aquesta pàgina</span>
+        <nav className={styles.toc} aria-label={copy.indexAria(document.title)}>
+          <span>{copy.onThisPage}</span>
           <ol>
             {document.sections.map((section) => (
               <li key={section.id}><a href={`#${section.id}`}>{section.title.replace(/^\d+\.\s*/, "")}</a></li>
@@ -57,8 +65,8 @@ export function LegalDocument({ document }: { document: LegalDocumentData }) {
           ))}
 
           <aside className={styles.sources}>
-            <h2>Fonts oficials de referència</h2>
-            <p>Aquest esborrany s’ha estructurat a partir de normativa i guies oficials. La versió final ha de reflectir la realitat operativa de l’organitzador.</p>
+            <h2>{copy.sources}</h2>
+            <p>{copy.sourcesDescription}</p>
             <ul>
               {document.references.map((reference) => (
                 <li key={reference.href}><a href={reference.href} target="_blank" rel="noreferrer">{reference.label} ↗</a></li>
@@ -70,8 +78,8 @@ export function LegalDocument({ document }: { document: LegalDocumentData }) {
 
       <footer className={styles.footer}>
         <Image src="/brand/culdesac-mark.webp" alt="" width={38} height={59} />
-        <p>Culdesac · Competicions online</p>
-        <div><Link href="/legal/terms">Termes</Link><Link href="/legal/privacy">Privacitat</Link></div>
+        <p>{copy.tagline}</p>
+        <div><Link href="/legal/terms">{copy.terms}</Link><Link href="/legal/privacy">{copy.privacy}</Link></div>
       </footer>
     </main>
   );

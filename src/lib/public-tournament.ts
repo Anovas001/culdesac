@@ -14,18 +14,18 @@ export type PublicTournamentView = {
   isOpen: boolean;
 };
 
-const statusLabels: Record<PublicTournamentSummary["status"], string> = {
-  DRAFT: "Properament",
-  OPEN: "Inscripcions obertes",
-  CLOSED: "Inscripcions tancades",
-  COMPLETED: "Torneig finalitzat",
+const statusLabels: Record<Locale, Record<PublicTournamentSummary["status"], string>> = {
+  ca: { DRAFT: "Properament", OPEN: "Inscripcions obertes", CLOSED: "Inscripcions tancades", COMPLETED: "Torneig finalitzat" },
+  es: { DRAFT: "Próximamente", OPEN: "Inscripciones abiertas", CLOSED: "Inscripciones cerradas", COMPLETED: "Torneo finalizado" },
 };
 
 export function buildPublicTournamentView(
   tournament: PublicTournamentSummary,
   timeZone: string,
+  locale: Locale = "ca",
 ): PublicTournamentView {
-  const dateParts = new Intl.DateTimeFormat("ca-ES", {
+  const intlLocale = locale === "es" ? "es-ES" : "ca-ES";
+  const dateParts = new Intl.DateTimeFormat(intlLocale, {
     day: "numeric",
     month: "long",
     year: "numeric",
@@ -37,10 +37,13 @@ export function buildPublicTournamentView(
   const part = (type: Intl.DateTimeFormatPartTypes) =>
     dateParts.find((datePart) => datePart.type === type)?.value ?? "";
   const month = part("month").replace(/^(?:d’|de\s+)/, "");
+  const dateLabel = locale === "es"
+    ? `${part("day")} de ${month} de ${part("year")}, ${part("hour")}:${part("minute")}`
+    : `${part("day")} d’${month} de ${part("year")}, ${part("hour")}:${part("minute")}`;
 
   return {
-    dateLabel: `${part("day")} d’${month} de ${part("year")}, ${part("hour")}:${part("minute")}`,
-    priceLabel: new Intl.NumberFormat("ca-ES", {
+    dateLabel,
+    priceLabel: new Intl.NumberFormat(intlLocale, {
       style: "currency",
       currency: tournament.currency.toUpperCase(),
       minimumFractionDigits: 0,
@@ -48,8 +51,9 @@ export function buildPublicTournamentView(
     })
       .format(tournament.priceCents / 100)
       .replace(/\u00a0/g, " "),
-    capacityLabel: tournament.capacity ? `${tournament.capacity} places` : null,
-    statusLabel: statusLabels[tournament.status],
+    capacityLabel: tournament.capacity ? `${tournament.capacity} ${locale === "es" ? "plazas" : "places"}` : null,
+    statusLabel: statusLabels[locale][tournament.status],
     isOpen: tournament.status === "OPEN",
   };
 }
+import type { Locale } from "./i18n/config";

@@ -41,6 +41,12 @@
 
 .back:hover { color: var(--yellow); }
 
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+}
+
 .hero {
   position: relative;
   overflow: hidden;
@@ -286,6 +292,7 @@
   .header { width: calc(100% - 28px); }
   .brand img { width: 112px; }
   .back { font-size: 0.65rem; }
+  .headerActions { gap: 0.45rem; }
   .hero { padding-inline: 14px; }
   .draftNotice, .layout { width: calc(100% - 28px); }
   .toc ol { grid-template-columns: 1fr; }

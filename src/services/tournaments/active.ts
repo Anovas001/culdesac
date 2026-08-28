@@ -5,6 +5,10 @@ export type PublicTournament = {
   headline: string;
   description: string;
   rules: string;
+  nameEs?: string | null;
+  headlineEs?: string | null;
+  descriptionEs?: string | null;
+  rulesEs?: string | null;
   eventDate: Date;
   priceCents: number;
   currency: string;

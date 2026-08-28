@@ -40,4 +40,22 @@ describe("buildPublicTournamentView", () => {
     expect(view.statusLabel).toBe("Inscripcions tancades");
     expect(view.isOpen).toBe(false);
   });
+
+  it("formats tournament details in Spanish", () => {
+    const view = buildPublicTournamentView(
+      {
+        status: "OPEN",
+        eventDate: new Date("2026-10-10T16:00:00.000Z"),
+        priceCents: 1500,
+        currency: "eur",
+        capacity: 512,
+      },
+      "Europe/Madrid",
+      "es",
+    );
+
+    expect(view.statusLabel).toBe("Inscripciones abiertas");
+    expect(view.dateLabel).toBe("10 de octubre de 2026, 18:00");
+    expect(view.capacityLabel).toBe("512 plazas");
+  });
 });

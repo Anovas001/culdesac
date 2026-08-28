@@ -8,10 +8,9 @@ describe("registration success experience", () => {
     const stylesheet = readFileSync(new URL("./success.module.css", import.meta.url), "utf8");
 
     expect(page).toContain('src="/brand/culdesac-logo.webp"');
-    expect(page).toContain("Pagament rebut");
-    expect(page).toContain("Ja ets dins del quadre");
-    expect(page).toContain("Confirmació automàtica");
-    expect(page).toContain("Revisa el teu correu");
+    expect(page).toContain("getMessages(locale).success");
+    expect(page).toContain("copy.titleLead");
+    expect(page).toContain("copy.steps.map");
     expect(page).toContain('href="/legal/privacy"');
     expect(stylesheet).toContain('url("/brand/culdesac-arena.webp")');
     expect(stylesheet).toContain("--yellow: #fff200");

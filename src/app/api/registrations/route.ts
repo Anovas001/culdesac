@@ -9,7 +9,7 @@ import { db } from "@/lib/db";
 export async function POST(request: Request) {
   try {
     const parsed = registrationSchema.safeParse(await request.json());
-    if (!parsed.success) return NextResponse.json({ error: parsed.error.issues[0]?.message ?? "Revisa les dades del formulari.", fields: parsed.error.flatten().fieldErrors }, { status: 422 });
+    if (!parsed.success) return NextResponse.json({ code: "INVALID_REGISTRATION", error: parsed.error.issues[0]?.message ?? "Revisa les dades del formulari.", fields: parsed.error.flatten().fieldErrors }, { status: 422 });
     const result = await createOrReuseRegistration(prismaRegistrationRepository, parsed.data);
     const stripe = getStripe(); const env = getServerEnv();
     const current = await db.registration.findUniqueOrThrow({ where: { id: result.registration.id } });
@@ -18,7 +18,8 @@ export async function POST(request: Request) {
     await db.registration.update({ where: { id: current.id }, data: { stripeCheckoutSessionId: session.id, status: "PENDING_PAYMENT" } });
     return NextResponse.json({ url: session.url });
   } catch (error) {
-    if (error instanceof ClosedTournamentError || error instanceof DuplicatePaidRegistrationError) return NextResponse.json({ error: error.message }, { status: 409 });
-    console.error("[registration]", error); return NextResponse.json({ error: "No s'ha pogut iniciar el pagament." }, { status: 500 });
+    if (error instanceof ClosedTournamentError) return NextResponse.json({ code: "TOURNAMENT_CLOSED", error: error.message }, { status: 409 });
+    if (error instanceof DuplicatePaidRegistrationError) return NextResponse.json({ code: "ALREADY_REGISTERED", error: error.message }, { status: 409 });
+    console.error("[registration]", error); return NextResponse.json({ code: "PAYMENT_FAILED", error: "No s'ha pogut iniciar el pagament." }, { status: 500 });
   }
 }

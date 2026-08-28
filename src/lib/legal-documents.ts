@@ -274,3 +274,13 @@ export const privacyDocument: LegalDocument = {
     { label: "Dret d’informació (AEPD)", href: "https://www.aepd.es/derechos-y-deberes/conoce-tus-derechos/derecho-de-informacion" },
   ],
 };
+
+export function getTermsDocument(locale: Locale): LegalDocument {
+  return locale === "es" ? termsDocumentEs : termsDocument;
+}
+
+export function getPrivacyDocument(locale: Locale): LegalDocument {
+  return locale === "es" ? privacyDocumentEs : privacyDocument;
+}
+import type { Locale } from "./i18n/config";
+import { privacyDocumentEs, termsDocumentEs } from "./legal-documents.es";

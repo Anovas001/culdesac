@@ -1,14 +1,17 @@
 import type { Metadata } from "next";
 
-import { privacyDocument } from "@/lib/legal-documents";
+import { getLocale } from "@/lib/i18n/server";
+import { getPrivacyDocument } from "@/lib/legal-documents";
 
 import { LegalDocument } from "../legal-document";
 
-export const metadata: Metadata = {
-  title: "Política de privacitat",
-  description: "Informació sobre el tractament de dades personals a Culdesac.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getLocale();
+  const document = getPrivacyDocument(locale);
+  return { title: document.title, description: document.description };
+}
 
-export default function PrivacyPage() {
-  return <LegalDocument document={privacyDocument} />;
+export default async function PrivacyPage() {
+  const locale = await getLocale();
+  return <LegalDocument document={getPrivacyDocument(locale)} locale={locale} returnTo="/legal/privacy" />;
 }

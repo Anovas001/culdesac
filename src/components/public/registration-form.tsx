@@ -2,13 +2,18 @@
 
 import { useState } from "react";
 
+import type { Locale } from "@/lib/i18n/config";
+import { getMessages } from "@/lib/i18n/messages";
+
 import styles from "./registration-form.module.css";
 
 type RegistrationFormProps = {
   priceLabel: string;
+  locale: Locale;
 };
 
-export function RegistrationForm({ priceLabel }: RegistrationFormProps) {
+export function RegistrationForm({ priceLabel, locale }: RegistrationFormProps) {
+  const copy = getMessages(locale).registration;
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -17,6 +22,7 @@ export function RegistrationForm({ priceLabel }: RegistrationFormProps) {
     setError(null);
     const body = {
       ...Object.fromEntries(formData),
+      locale,
       acceptedTerms: formData.get("acceptedTerms") === "on",
       acceptedPrivacy: formData.get("acceptedPrivacy") === "on",
     };
@@ -29,11 +35,18 @@ export function RegistrationForm({ priceLabel }: RegistrationFormProps) {
       });
       const data = await response.json();
       if (!response.ok || !data.url) {
-        throw new Error(data.error ?? "No s’ha pogut iniciar el pagament.");
+        const errorCode = typeof data.code === "string" ? data.code : "PAYMENT_FAILED";
+        const errorMessages: Record<string, string> = {
+          INVALID_REGISTRATION: copy.errors.invalid,
+          TOURNAMENT_CLOSED: copy.errors.closed,
+          ALREADY_REGISTERED: copy.errors.duplicate,
+          PAYMENT_FAILED: copy.errors.generic,
+        };
+        throw new Error(errorMessages[errorCode] ?? copy.errors.generic);
       }
       window.location.assign(data.url);
     } catch (caughtError) {
-      setError(caughtError instanceof Error ? caughtError.message : "Error inesperat.");
+      setError(caughtError instanceof Error ? caughtError.message : copy.errors.unexpected);
       setLoading(false);
     }
   }
@@ -41,20 +54,20 @@ export function RegistrationForm({ priceLabel }: RegistrationFormProps) {
   return (
     <form action={submit} className={styles.form}>
       <div className={styles.heading}>
-        <span>Registre de jugador</span>
-        <h3>Reserva la teva plaça</h3>
-        <p>Tots els camps marcats amb * són obligatoris.</p>
+        <span>{copy.playerRegistration}</span>
+        <h3>{copy.title}</h3>
+        <p>{copy.required}</p>
       </div>
 
       {error && <p className={styles.error} role="alert" aria-live="polite">{error}</p>}
 
       <div className={styles.fields}>
         <label>
-          <span>Nom i cognoms *</span>
-          <input name="fullName" autoComplete="name" placeholder="El teu nom i cognoms" required />
+          <span>{copy.fullName}</span>
+          <input name="fullName" autoComplete="name" placeholder={copy.fullNamePlaceholder} required />
         </label>
         <label>
-          <span>DNI / NIE *</span>
+          <span>{copy.dni}</span>
           <input
             className={styles.identityInput}
             name="dni"
@@ -65,19 +78,19 @@ export function RegistrationForm({ priceLabel }: RegistrationFormProps) {
           />
         </label>
         <label>
-          <span>Correu electrònic *</span>
-          <input name="email" type="email" autoComplete="email" placeholder="tu@correu.cat" required />
+          <span>{copy.email}</span>
+          <input name="email" type="email" autoComplete="email" placeholder={copy.emailPlaceholder} required />
         </label>
         <label>
-          <span>Nickname de Fortnite *</span>
-          <input name="epicUsername" autoComplete="off" placeholder="El teu nom dins del joc" required />
+          <span>{copy.fortnite}</span>
+          <input name="epicUsername" autoComplete="off" placeholder={copy.fortnitePlaceholder} required />
         </label>
         <label>
-          <span>Tag de Discord *</span>
+          <span>{copy.discord}</span>
           <input name="discordUsername" autoComplete="off" placeholder="usuari" required />
         </label>
         <label>
-          <span>Codi postal *</span>
+          <span>{copy.postalCode}</span>
           <input
             name="postalCode"
             inputMode="numeric"
@@ -90,26 +103,26 @@ export function RegistrationForm({ priceLabel }: RegistrationFormProps) {
         </label>
       </div>
 
-      <p className={styles.dataNote}>El DNI/NIE s’utilitza per identificar la inscripció i evitar duplicats. No s’envia a Stripe ni apareix al correu de confirmació.</p>
+      <p className={styles.dataNote}>{copy.dataNote}</p>
 
       <div className={styles.consents}>
         <label>
           <input name="acceptedTerms" type="checkbox" required />
-          <span>Accepto els <a href="/legal/terms" target="_blank">termes i condicions</a> del torneig.</span>
+          <span>{copy.acceptTermsLead} <a href="/legal/terms" target="_blank">{copy.terms}</a> {copy.acceptTermsTail}</span>
         </label>
         <label>
           <input name="acceptedPrivacy" type="checkbox" required />
-          <span>Confirmo que he llegit la <a href="/legal/privacy" target="_blank">política de privacitat</a>.</span>
+          <span>{copy.privacyLead} <a href="/legal/privacy" target="_blank">{copy.privacy}</a>.</span>
         </label>
       </div>
 
       <button disabled={loading} type="submit">
-        <span>{loading ? "Preparant el pagament…" : `Pagar ${priceLabel} i reservar plaça`}</span>
+        <span>{loading ? copy.loading : copy.submit(priceLabel)}</span>
         <span aria-hidden="true">↗</span>
       </button>
       <p className={styles.secureNote}>
         <span aria-hidden="true">◆</span>
-        Pagament processat de forma segura per Stripe
+        {copy.secure}
       </p>
     </form>
   );
