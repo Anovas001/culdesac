@@ -29,7 +29,7 @@ export default async function Home() {
         <div className={styles.emptyLocale}><LocaleSwitcher locale={locale} returnTo="/" /></div>
         <Image
           className={styles.emptyLogo}
-          src="/brand/culdesac-logo.webp"
+          src="/brand/culdesac-logo.png"
           alt="Culdesac"
           width={560}
           height={368}
@@ -59,7 +59,7 @@ export default async function Home() {
 
       <header className={styles.header}>
         <a className={styles.brand} href="#inici" aria-label="Culdesac, inici">
-          <Image src="/brand/culdesac-logo.webp" alt="Culdesac" width={220} height={145} priority />
+          <Image src="/brand/culdesac-logo.png" alt="Culdesac" width={220} height={145} priority />
         </a>
         <nav className={styles.nav} aria-label={copy.navigation.aria}>
           <a href="#torneig">{copy.navigation.tournament}</a>
@@ -146,7 +146,7 @@ export default async function Home() {
             <strong>{tournamentCopy.name}</strong>
           </div>
           <div className={styles.heroMark} aria-hidden="true">
-            <Image src="/brand/culdesac-mark.webp" alt="" width={170} height={262} />
+            <Image src="/brand/culdesac-mark.png" alt="" width={170} height={262} />
           </div>
         </div>
       </section>
@@ -245,7 +245,7 @@ export default async function Home() {
           <RegistrationForm priceLabel={publicView.priceLabel} locale={locale} />
         ) : (
           <div className={styles.closedCard}>
-            <Image src="/brand/culdesac-mark.webp" alt="" width={120} height={185} />
+            <Image src="/brand/culdesac-mark.png" alt="" width={120} height={185} />
             <p>{publicView.statusLabel}</p>
             <span>{copy.registrationSection.closedFollow}</span>
           </div>
@@ -254,7 +254,7 @@ export default async function Home() {
 
       <footer className={styles.footer}>
         <div className={styles.footerBrand}>
-          <Image src="/brand/culdesac-logo.webp" alt="Culdesac" width={260} height={171} />
+          <Image src="/brand/culdesac-logo.png" alt="Culdesac" width={260} height={171} />
           <p>{copy.footer.tagline}</p>
         </div>
         <div className={styles.footerLinks}>

@@ -15,7 +15,7 @@ export function LegalDocument({ document, locale, returnTo }: { document: LegalD
     <main className={styles.page}>
       <header className={styles.header}>
         <Link className={styles.brand} href="/" aria-label={copy.backAria}>
-          <Image src="/brand/culdesac-logo.webp" alt="Culdesac" width={176} height={62} priority />
+          <Image src="/brand/culdesac-logo.png" alt="Culdesac" width={176} height={62} priority />
         </Link>
         <div className={styles.headerActions}>
           <LocaleSwitcher locale={locale} returnTo={returnTo} compact />
@@ -77,7 +77,7 @@ export function LegalDocument({ document, locale, returnTo }: { document: LegalD
       </div>
 
       <footer className={styles.footer}>
-        <Image src="/brand/culdesac-mark.webp" alt="" width={38} height={59} />
+        <Image src="/brand/culdesac-mark.png" alt="" width={38} height={59} />
         <p>{copy.tagline}</p>
         <div><Link href="/legal/terms">{copy.terms}</Link><Link href="/legal/privacy">{copy.privacy}</Link></div>
       </footer>

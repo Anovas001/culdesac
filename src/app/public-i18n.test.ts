@@ -11,7 +11,7 @@ describe("public locale integration", () => {
     const landing = read("./page.tsx");
 
     expect(layout).toContain("await getLocale()");
-    expect(layout).toContain("lang={locale}");
+    expect(layout).toContain("<html lang={locale} suppressHydrationWarning>");
     expect(landing).toContain("getLocale(),");
     expect(landing).toContain("getMessages(locale)");
     expect(landing).toContain("<LocaleSwitcher");

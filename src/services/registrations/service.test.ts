@@ -12,6 +12,7 @@ const participant: RegistrationInput = {
   fullName: "Ada Lovelace",
   email: "ada@example.com",
   emailNormalized: "ada@example.com",
+  phone: "+34612345678",
   epicUsername: "AdaPlayer",
   epicUsernameNormalized: "adaplayer",
   discordUsername: "ada",
@@ -20,6 +21,7 @@ const participant: RegistrationInput = {
   postalCode: "08001",
   acceptedTerms: true,
   acceptedPrivacy: true,
+  acceptedMarketing: false,
 };
 
 const openTournament = { id: "tournament-1", status: "OPEN" as const, priceCents: 1500, currency: "eur" };

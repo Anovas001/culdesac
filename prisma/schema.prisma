@@ -60,6 +60,7 @@ model Registration {
   fullName                   String
   email                      String
   emailNormalized            String
+  phone                      String?            @db.VarChar(16)
   epicUsername               String
   epicUsernameNormalized     String
   discordUsername            String
@@ -68,6 +69,8 @@ model Registration {
   postalCode                 String             @db.VarChar(5)
   acceptedTerms              Boolean
   acceptedPrivacy            Boolean
+  acceptedMarketing          Boolean            @default(false)
+  acceptedMarketingAt        DateTime?
   status                     RegistrationStatus @default(PENDING_PAYMENT)
   amountCents                Int
   currency                   String             @db.VarChar(3)

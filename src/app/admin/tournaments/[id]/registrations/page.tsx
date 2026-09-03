@@ -54,6 +54,7 @@ export default async function Registrations({
               <th>Participant</th>
               <th>Identificació</th>
               <th>Contacte</th>
+              <th>Consentiments</th>
               <th>Pagament</th>
               <th>Data</th>
               <th></th>
@@ -71,7 +72,16 @@ export default async function Registrations({
                   <strong>{registration.dni}</strong><br />
                   <small>CP {registration.postalCode}</small>
                 </td>
-                <td>{registration.email}</td>
+                <td>
+                  {registration.email}<br />
+                  <small>{registration.phone ?? "Sense telèfon"}</small>
+                </td>
+                <td>
+                  <strong>Màrqueting: {registration.acceptedMarketing ? "Sí" : "No"}</strong><br />
+                  {registration.acceptedMarketingAt && (
+                    <small>{new Intl.DateTimeFormat("ca-ES", { dateStyle: "short", timeStyle: "short" }).format(registration.acceptedMarketingAt)}</small>
+                  )}
+                </td>
                 <td>
                   <span className={`badge ${registration.status.toLowerCase()}`}>{registration.status}</span><br />
                   <small>{formatMoney(registration.amountCents, registration.currency)}</small>

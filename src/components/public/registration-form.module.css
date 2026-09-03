@@ -147,6 +147,13 @@
   text-underline-offset: 0.18em;
 }
 
+.consents .optionalConsent {
+  padding: 0.75rem;
+  color: #3f3f48;
+  background: #f4f4f7;
+  border-left: 3px solid #ff00e5;
+}
+
 .form button {
   display: flex;
   align-items: center;

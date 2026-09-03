@@ -7,7 +7,7 @@ describe("registration success experience", () => {
     const page = readFileSync(new URL("./page.tsx", import.meta.url), "utf8");
     const stylesheet = readFileSync(new URL("./success.module.css", import.meta.url), "utf8");
 
-    expect(page).toContain('src="/brand/culdesac-logo.webp"');
+    expect(page).toContain('src="/brand/culdesac-logo.png"');
     expect(page).toContain("getMessages(locale).success");
     expect(page).toContain("copy.titleLead");
     expect(page).toContain("copy.steps.map");

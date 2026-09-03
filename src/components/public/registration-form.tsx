@@ -25,6 +25,7 @@ export function RegistrationForm({ priceLabel, locale }: RegistrationFormProps) 
       locale,
       acceptedTerms: formData.get("acceptedTerms") === "on",
       acceptedPrivacy: formData.get("acceptedPrivacy") === "on",
+      acceptedMarketing: formData.get("acceptedMarketing") === "on",
     };
 
     try {
@@ -82,6 +83,18 @@ export function RegistrationForm({ priceLabel, locale }: RegistrationFormProps) 
           <input name="email" type="email" autoComplete="email" placeholder={copy.emailPlaceholder} required />
         </label>
         <label>
+          <span>{copy.phone}</span>
+          <input
+            name="phone"
+            type="tel"
+            inputMode="tel"
+            autoComplete="tel"
+            placeholder={copy.phonePlaceholder}
+            maxLength={30}
+            required
+          />
+        </label>
+        <label>
           <span>{copy.fortnite}</span>
           <input name="epicUsername" autoComplete="off" placeholder={copy.fortnitePlaceholder} required />
         </label>
@@ -113,6 +126,10 @@ export function RegistrationForm({ priceLabel, locale }: RegistrationFormProps) 
         <label>
           <input name="acceptedPrivacy" type="checkbox" required />
           <span>{copy.privacyLead} <a href="/legal/privacy" target="_blank">{copy.privacy}</a>.</span>
+        </label>
+        <label className={styles.optionalConsent}>
+          <input name="acceptedMarketing" type="checkbox" />
+          <span>{copy.marketingConsent}</span>
         </label>
       </div>
 

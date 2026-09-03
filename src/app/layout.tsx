@@ -13,7 +13,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: { default: copy.title, template: "%s · Culdesac" },
     description: copy.description,
-    icons: { icon: "/brand/culdesac-mark.webp" },
+    icons: { icon: "/brand/culdesac-mark.png" },
   };
 }
 
@@ -25,7 +25,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
   const locale = await getLocale();
 
   return (
-    <html lang={locale}>
+    <html lang={locale} suppressHydrationWarning>
       <body>{children}</body>
     </html>
   );

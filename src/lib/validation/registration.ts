@@ -25,6 +25,17 @@ export function isValidSpanishIdentity(identity: string): boolean {
   return normalized.at(-1) === expectedLetter;
 }
 
+export function normalizeSpanishPhone(phone: string): string {
+  const compact = phone.trim().replace(/[().\s-]/g, "");
+  if (compact.startsWith("0034")) return `+34${compact.slice(4)}`;
+  if (!compact.startsWith("+")) return `+34${compact}`;
+  return compact;
+}
+
+export function isValidSpanishPhone(phone: string): boolean {
+  return /^\+34[6789]\d{8}$/.test(normalizeSpanishPhone(phone));
+}
+
 function isValidSpanishPostalCode(postalCode: string): boolean {
   if (!/^\d{5}$/.test(postalCode)) return false;
   const provinceCode = Number(postalCode.slice(0, 2));
@@ -35,6 +46,13 @@ export const registrationSchema = z
   .object({
     fullName: z.string().trim().min(2, "Escriu el teu nom complet.").max(120),
     email: z.string().trim().email("Escriu un correu electrònic vàlid.").max(254),
+    phone: z
+      .string()
+      .trim()
+      .min(9, "Escriu un número de telèfon vàlid.")
+      .max(30)
+      .transform(normalizeSpanishPhone)
+      .refine(isValidSpanishPhone, "Escriu un número de telèfon espanyol vàlid."),
     epicUsername: z.string().trim().min(2, "Escriu el teu nickname de Fortnite.").max(64),
     discordUsername: z.string().trim().min(2, "Escriu el teu usuari de Discord.").max(100),
     dni: z
@@ -47,6 +65,7 @@ export const registrationSchema = z
       .refine(isValidSpanishPostalCode, "Escriu un codi postal espanyol vàlid."),
     acceptedTerms: z.literal(true, { error: "Has d'acceptar els termes." }),
     acceptedPrivacy: z.literal(true, { error: "Confirma que has llegit la política de privacitat." }),
+    acceptedMarketing: z.boolean().default(false),
   })
   .transform((value) => ({
     ...value,

@@ -26,7 +26,7 @@ export default async function Success() {
       <header className={styles.header}>
         <Link className={styles.brand} href="/" aria-label={copy.backAria}>
           <Image
-            src="/brand/culdesac-logo.webp"
+            src="/brand/culdesac-logo.png"
             alt="Culdesac"
             width={220}
             height={145}
@@ -73,7 +73,7 @@ export default async function Success() {
 
         <aside className={styles.confirmationCard} aria-label={copy.statusAria}>
           <div className={styles.cardHeader}>
-            <Image src="/brand/culdesac-mark.webp" alt="" width={58} height={90} />
+            <Image src="/brand/culdesac-mark.png" alt="" width={58} height={90} />
             <div>
               <span>{copy.placeStatus}</span>
               <strong>{copy.processing}</strong>

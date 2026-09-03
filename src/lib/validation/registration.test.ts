@@ -2,19 +2,23 @@ import { describe, expect, it } from "vitest";
 
 import {
   isValidSpanishIdentity,
+  isValidSpanishPhone,
   normalizeSpanishIdentity,
+  normalizeSpanishPhone,
   registrationSchema,
 } from "./registration";
 
 const validRegistration = {
   fullName: "Ada Lovelace",
   email: " Ada@Example.COM ",
+  phone: " 612 345 678 ",
   epicUsername: "  AdaPlayer  ",
   discordUsername: "ada",
   dni: " 12.345.678-z ",
   postalCode: "08001",
   acceptedTerms: true,
   acceptedPrivacy: true,
+  acceptedMarketing: false,
 };
 
 describe("registrationSchema", () => {
@@ -22,10 +26,22 @@ describe("registrationSchema", () => {
     const result = registrationSchema.parse(validRegistration);
 
     expect(result.emailNormalized).toBe("ada@example.com");
+    expect(result.phone).toBe("+34612345678");
     expect(result.epicUsernameNormalized).toBe("adaplayer");
     expect(result.epicUsername).toBe("AdaPlayer");
     expect(result.dni).toBe("12345678Z");
     expect(result.dniNormalized).toBe("12345678Z");
+  });
+
+  it("accepts common Spanish phone formats and stores E.164 format", () => {
+    expect(normalizeSpanishPhone("0034 612-345-678")).toBe("+34612345678");
+    expect(isValidSpanishPhone("+34 912 345 678")).toBe(true);
+    expect(registrationSchema.parse({ ...validRegistration, phone: "+34 712 345 678" }).phone).toBe("+34712345678");
+  });
+
+  it("rejects invalid or non-Spanish phone numbers", () => {
+    expect(registrationSchema.safeParse({ ...validRegistration, phone: "12345" }).success).toBe(false);
+    expect(registrationSchema.safeParse({ ...validRegistration, phone: "+33 612 345 678" }).success).toBe(false);
   });
 
   it("accepts a valid NIE and normalizes separators", () => {
@@ -44,12 +60,19 @@ describe("registrationSchema", () => {
     expect(registrationSchema.safeParse({ ...validRegistration, discordUsername: "" }).success).toBe(false);
   });
 
-  it("requires acceptance of both legal checkboxes", () => {
+  it("requires both contractual legal checkboxes", () => {
     expect(
       registrationSchema.safeParse({ ...validRegistration, acceptedTerms: false }).success,
     ).toBe(false);
     expect(
       registrationSchema.safeParse({ ...validRegistration, acceptedPrivacy: false }).success,
     ).toBe(false);
+  });
+
+  it("keeps marketing consent optional and defaults it to false", () => {
+    const { acceptedMarketing: _omitted, ...withoutMarketingConsent } = validRegistration;
+
+    expect(registrationSchema.parse(withoutMarketingConsent).acceptedMarketing).toBe(false);
+    expect(registrationSchema.parse({ ...validRegistration, acceptedMarketing: true }).acceptedMarketing).toBe(true);
   });
 });
