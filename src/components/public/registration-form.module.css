@@ -100,6 +100,11 @@
   text-transform: uppercase;
 }
 
+.error p { margin: 0; }
+.error ul { margin: 0.5rem 0 0; padding-left: 1.2rem; }
+.error a { color: inherit; text-decoration: underline; }
+.fields input[aria-invalid="true"] { border: 2px solid #8a0038; }
+
 .dataNote {
   padding: 0.8rem 0.9rem;
   margin: 1rem 0 0;

@@ -44,12 +44,14 @@
   align-items: center;
   width: 168px;
   height: 82px;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .brand img {
-  width: 164px;
-  height: auto;
+  width: 104px;
+  height: 104px;
+  object-fit: contain;
+  flex-shrink: 0;
 }
 
 .nav {
@@ -849,6 +851,10 @@
   text-transform: uppercase;
 }
 
+.closedCard img {
+  object-fit: contain;
+}
+
 .closedCard span {
   color: #aaaab3;
 }
@@ -866,8 +872,9 @@
 
 .footerBrand img {
   display: block;
-  width: 220px;
-  height: auto;
+  width: 145px;
+  height: 145px;
+  object-fit: contain;
   margin: 0 0 0.75rem;
 }
 
@@ -948,9 +955,9 @@
 }
 
 .emptyLogo {
-  width: min(420px, 75vw);
+  width: min(276px, 65vw);
   height: auto;
-  margin-bottom: -4rem;
+  margin-bottom: 0;
 }
 
 .emptyState h1 {
@@ -1019,11 +1026,13 @@
   }
 
   .brand {
+    width: 84px;
     height: 72px;
   }
 
   .brand img {
-    width: 145px;
+    width: 84px;
+    height: 84px;
   }
 
   .nav {

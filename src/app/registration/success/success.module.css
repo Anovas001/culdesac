@@ -42,12 +42,14 @@
   align-items: center;
   width: 168px;
   height: 80px;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .brand img {
-  width: 164px;
-  height: auto;
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+  flex-shrink: 0;
 }
 
 .secureStatus {
@@ -485,7 +487,7 @@
     height: 68px;
   }
 
-  .brand img { width: 136px; }
+  .brand img { width: 80px; height: 80px; }
 
   .secureStatus {
     max-width: 130px;

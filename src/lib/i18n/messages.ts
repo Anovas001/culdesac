@@ -102,6 +102,18 @@ const ca = {
       generic: "No s’ha pogut iniciar el pagament.",
       unexpected: "Error inesperat.",
     },
+    fieldErrors: {
+      fullName: "Nom i cognoms: escriu entre 2 i 120 caràcters.",
+      email: "Correu electrònic: escriu una adreça vàlida (màxim 254 caràcters).",
+      phone: "Telèfon: escriu 9 dígits, amb el prefix +34 opcional. Exemple: 612 345 678.",
+      epicUsername: "Nickname de Fortnite: escriu entre 2 i 64 caràcters.",
+      discordUsername: "Usuari de Discord: escriu entre 2 i 100 caràcters.",
+      dni: "DNI/NIE: comprova els números i la lletra de control. Exemple: 12345678Z.",
+      postalCode: "Codi postal: escriu un codi espanyol vàlid de 5 dígits. Exemple: 08001.",
+      acceptedTerms: "Has d’acceptar els termes del torneig.",
+      acceptedPrivacy: "Has d’acceptar la política de privacitat.",
+      acceptedMarketing: "Revisa la casella de comunicacions comercials.",
+    },
   },
   footer: {
     tagline: "Competició online. Rivalitat real.",
@@ -214,6 +226,18 @@ const es: typeof ca = {
     errors: {
       invalid: "Revisa los datos del formulario.", closed: "Las inscripciones de este torneo están cerradas.",
       duplicate: "Ya tienes una inscripción pagada para este torneo.", generic: "No se ha podido iniciar el pago.", unexpected: "Error inesperado.",
+    },
+    fieldErrors: {
+      fullName: "Nombre y apellidos: escribe entre 2 y 120 caracteres.",
+      email: "Correo electrónico: escribe una dirección válida (máximo 254 caracteres).",
+      phone: "Teléfono: escribe 9 dígitos, con el prefijo +34 opcional. Ejemplo: 612 345 678.",
+      epicUsername: "Nickname de Fortnite: escribe entre 2 y 64 caracteres.",
+      discordUsername: "Usuario de Discord: escribe entre 2 y 100 caracteres.",
+      dni: "DNI/NIE: comprueba los números y la letra de control. Ejemplo: 12345678Z.",
+      postalCode: "Código postal: escribe un código español válido de 5 dígitos. Ejemplo: 08001.",
+      acceptedTerms: "Debes aceptar los términos del torneo.",
+      acceptedPrivacy: "Debes aceptar la política de privacidad.",
+      acceptedMarketing: "Revisa la casilla de comunicaciones comerciales.",
     },
   },
   footer: {
