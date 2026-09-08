@@ -189,6 +189,37 @@ El fitxer és binari (`--format=custom`), per això es copia al contenidor en co
 
 ## Troubleshooting
 
+### Correu de confirmació Culdesac
+
+La plantilla HTML i el text alternatiu són a `src/lib/email/confirmation-template.ts`.
+El webhook de pagament i el reenviament del backoffice utilitzen aquesta mateixa plantilla,
+amb les dades reals de cada inscripció. El remitent continua sent `EMAIL_FROM` i les
+respostes van a `culdesac@gamesportselectronics.cat`.
+
+Previsualització local, sense enviar correus ni consultar/modificar la base de dades:
+
+```bash
+npx tsx scripts/preview-confirmation.ts
+```
+
+Obre `http://127.0.0.1:3100/`. Per enviar una mostra explícitament (Node 24):
+
+```bash
+node --env-file=.env --import tsx scripts/preview-confirmation.ts --send --to destinatari@example.com
+```
+
+La mostra utilitza les dades d'exemple del torneig de llançament, inclou `[MOSTRA]`
+a l'assumpte i no crea inscripcions ni cobraments. Resend deduplica la mostra v1
+per destinatari durant 24 hores. `--site-url https://culdesac.gsegames.com` permet
+canviar la URL pública de la mostra; mai no s'utilitza localhost per a les seves imatges.
+
+En producció, `APP_URL` ha de ser la URL pública HTTPS: el logotip PNG i els enllaços
+del correu es resolen des d'aquesta URL. Per activar la plantilla, cal desplegar el
+codi i reconstruir/recrear el contenidor de l'app. No requereix migracions ni noves claus.
+La revisió visual local no substitueix comprovar la mostra rebuda a Gmail/Outlook.
+
+### Incidències habituals
+
 - **`migrate` no connecta:** comprova que `DATABASE_URL` usa l'host `db`, no `localhost`, i que la contrasenya URL-encoded coincideix amb `POSTGRES_PASSWORD`.
 - **L'app queda unhealthy:** consulta `docker compose logs app`; `/api/health` també depèn d'una consulta mínima a PostgreSQL.
 - **Stripe respon signatura invàlida:** utilitza el `whsec` que mostra el procés `stripe listen` actiu; no és la secret key `sk_test`.
