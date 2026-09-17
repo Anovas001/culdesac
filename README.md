@@ -189,6 +189,23 @@ El fitxer és binari (`--format=custom`), per això es copia al contenidor en co
 
 ## Troubleshooting
 
+### Exportar inscripcions a Excel
+
+A **Backoffice → Torneig → Inscripcions**, selecciona el filtre desitjat i prem
+**Exportar Excel**. Per gestionar només participants confirmats, tria **Pagada**.
+La descàrrega inclou totes les inscripcions del filtre, ordenades per nom, en un
+fitxer `.xlsx` amb el nom del torneig, el filtre i la data al nom del fitxer.
+
+Inclou nom, nickname de Fortnite, Discord, contacte, DNI/NIE, codi postal, estat,
+import, moneda, dates i codi d'inscripció. **Present** (Sí/No) i **Observacions**
+queden buits perquè els àrbitres els emplenin a Excel; aquests canvis no es
+retornen a l'app. Les capçaleres i les dues primeres columnes queden fixades,
+i la taula té filtres. Les dates indiquen el fus `APP_TIMEZONE`.
+
+La descàrrega requereix sessió d'administrador i no es desa a la carpeta pública
+ni a la memòria cau. No cal cap migració: desplega el codi amb el `package-lock.json`
+actualitzat i reconstrueix l'app per instal·lar la dependència ExcelJS.
+
 ### Correu de confirmació Culdesac
 
 La plantilla HTML i el text alternatiu són a `src/lib/email/confirmation-template.ts`.
