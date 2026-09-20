@@ -806,6 +806,27 @@
   line-height: 1.6;
 }
 
+.registrationIntro > p.discordHelp {
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.discordHelp a {
+  color: var(--purple);
+  font-weight: 800;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.discordHelp a:hover {
+  color: var(--ink);
+}
+
+.discordHelp a:focus-visible {
+  outline: 2px solid var(--purple);
+  outline-offset: 4px;
+}
+
 .registrationTrust {
   display: grid;
   gap: 0.65rem;

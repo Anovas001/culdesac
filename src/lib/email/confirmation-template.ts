@@ -1,4 +1,5 @@
 import { formatMoney } from "../money";
+import { DISCORD_INVITE_URL } from "../community-links";
 
 export type Confirmation = {
   id: string;
@@ -40,9 +41,9 @@ export function renderRegistrationConfirmation(
   }).format(tournament.eventDate);
   const dateWithZone = `${date} (${options.timeZone})`;
   const subject = `${options.preview ? "[MOSTRA] " : ""}Inscripció confirmada — ${tournament.name}`;
-  const nextStep = "Revisa les bases del torneig i estigues pendent de la convocatòria de l’organització. Conserva aquest correu: hi tens les dades de la teva inscripció.";
+  const nextStep = "Entra al Discord de Culdesac: és on es gestiona tota la competició, es publiquen les convocatòries i pots contactar amb els àrbitres. Uneix-t’hi abans que comenci el torneig. Conserva aquest correu: hi tens les dades de la teva inscripció.";
   const previewNote = "Mostra de disseny amb dades d’exemple. No s’ha creat cap inscripció ni s’ha fet cap cobrament.";
-  const text = `${options.preview ? `${previewNote}\n\n` : ""}CULDESAC · JA ETS DINS.\n\nHola ${registration.fullName},\n\nHem rebut el teu pagament i la teva plaça està confirmada.\n\n${tournament.name}\nParticipant: ${registration.fullName}\nJugador de Fortnite: ${registration.epicUsername}\nData i hora: ${dateWithZone}\nImport pagat: ${amount}\nCodi d’inscripció: ${registration.id}\n\nI ara, prepara’t per competir.\n${nextStep}\n\nTorna a Culdesac: ${siteUrl}/\n\nTens algun dubte? Respon aquest correu o escriu a ${confirmationReplyTo}.\n\nEns veiem al Culdesac.\nTu contra el quadre.\n\nReps aquest correu com a confirmació de la teva inscripció.\nCondicions: ${siteUrl}/legal/terms\nPrivacitat: ${siteUrl}/legal/privacy`;
+  const text = `${options.preview ? `${previewNote}\n\n` : ""}CULDESAC · JA ETS DINS.\n\nHola ${registration.fullName},\n\nHem rebut el teu pagament i la teva plaça està confirmada.\n\n${tournament.name}\nParticipant: ${registration.fullName}\nJugador de Fortnite: ${registration.epicUsername}\nData i hora: ${dateWithZone}\nImport pagat: ${amount}\nCodi d’inscripció: ${registration.id}\n\nEl següent pas: entra al Discord.\n${nextStep}\n\nEntrar al Discord: ${DISCORD_INVITE_URL}\n\nTorna a Culdesac: ${siteUrl}/\n\nTens algun dubte? Respon aquest correu o escriu a ${confirmationReplyTo}.\n\nEns veiem al Culdesac.\nTu contra el quadre.\n\nReps aquest correu com a confirmació de la teva inscripció.\nCondicions: ${siteUrl}/legal/terms\nPrivacitat: ${siteUrl}/legal/privacy`;
 
   const name = escapeHtml(registration.fullName);
   const nickname = escapeHtml(registration.epicUsername);
@@ -128,10 +129,10 @@ export function renderRegistrationConfirmation(
         </td></tr>
         <tr><td class="pad" style="padding:4px 40px 36px;">
           <p style="margin:0 0 12px;color:#fff200;font-size:11px;line-height:18px;font-weight:bold;letter-spacing:2px;">02 / EL SEGÜENT PAS</p>
-          <h2 style="margin:0 0 12px;color:#f5f5f7;font-size:23px;line-height:29px;">Prepara’t per competir.</h2>
+          <h2 style="margin:0 0 12px;color:#f5f5f7;font-size:23px;line-height:29px;">La competició continua al Discord.</h2>
           <p style="margin:0 0 24px;color:#c4c4d1;font-size:15px;line-height:25px;">${nextStep}</p>
           <table role="presentation" cellpadding="0" cellspacing="0"><tr><td bgcolor="#fff200" align="center" style="background-color:#fff200;mso-padding-alt:16px 26px;">
-            <a href="${url}/" style="display:inline-block;border:1px solid #fff200;padding:16px 26px;color:#0a0a0f;font-size:14px;line-height:20px;font-weight:bold;text-decoration:none;letter-spacing:0.5px;mso-padding-alt:0;">TORNA A CULDESAC &nbsp; ↗</a>
+            <a href="${DISCORD_INVITE_URL}" style="display:inline-block;border:1px solid #fff200;padding:16px 26px;color:#0a0a0f;font-size:14px;line-height:20px;font-weight:bold;text-decoration:none;letter-spacing:0.5px;mso-padding-alt:0;">ENTRAR AL DISCORD &nbsp; ↗</a>
           </td></tr></table>
           <p style="margin:24px 0 0;color:#b5b5c5;font-size:13px;line-height:22px;">Tens algun dubte? <a href="mailto:${confirmationReplyTo}" style="color:#f5f5f7;text-decoration:underline;">Respon aquest correu</a> i t’ajudarem.</p>
         </td></tr>

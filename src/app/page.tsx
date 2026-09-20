@@ -2,6 +2,7 @@ import Image from "next/image";
 
 import { LocaleSwitcher } from "@/components/public/locale-switcher";
 import { RegistrationForm } from "@/components/public/registration-form";
+import { DISCORD_INVITE_URL } from "@/lib/community-links";
 import { getMessages } from "@/lib/i18n/messages";
 import { getLocale } from "@/lib/i18n/server";
 import { localizeTournament } from "@/lib/i18n/tournament";
@@ -239,6 +240,12 @@ export default async function Home() {
           <div className={styles.registrationTrust}>
             {copy.registrationSection.trust.map((item) => <span key={item}>{item}</span>)}
           </div>
+          <p className={styles.discordHelp}>
+            {copy.registrationSection.discordQuestion}{" "}
+            <a href={DISCORD_INVITE_URL} target="_blank" rel="noopener noreferrer">
+              {copy.registrationSection.discordHelp}
+            </a>
+          </p>
         </div>
 
         {publicView.isOpen ? (
@@ -260,6 +267,7 @@ export default async function Home() {
         <div className={styles.footerLinks}>
           <a href="#torneig">{copy.footer.tournament}</a>
           <a href="#format">{copy.footer.format}</a>
+          <a href={DISCORD_INVITE_URL} target="_blank" rel="noopener noreferrer">{copy.footer.discord}</a>
           <a href="/legal/terms">{copy.footer.terms}</a>
           <a href="/legal/privacy">{copy.footer.privacy}</a>
         </div>

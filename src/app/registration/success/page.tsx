@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { LocaleSwitcher } from "@/components/public/locale-switcher";
+import { DISCORD_INVITE_URL } from "@/lib/community-links";
 import { getMessages } from "@/lib/i18n/messages";
 import { getLocale } from "@/lib/i18n/server";
 
@@ -57,12 +58,12 @@ export default async function Success() {
             <span>{copy.titleLead}</span>
             {copy.titleTail}
           </h1>
-          <p className={styles.intro}>{copy.intro}</p>
+          <p className={styles.intro}>{copy.intro} <strong>{copy.discordNotice}</strong></p>
 
           <div className={styles.actions}>
-            <Link className={styles.primaryAction} href="/">
-              {copy.back} <span aria-hidden="true">↗</span>
-            </Link>
+            <a className={styles.primaryAction} href={DISCORD_INVITE_URL} target="_blank" rel="noopener noreferrer">
+              {copy.discordAction} <span aria-hidden="true">↗</span>
+            </a>
             <Link className={styles.secondaryAction} href="/legal/terms">
               {copy.rules}
             </Link>

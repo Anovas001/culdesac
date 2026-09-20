@@ -69,6 +69,8 @@ const ca = {
     closedDescription: "Les inscripcions d’aquest torneig ja no estan disponibles.",
     trust: ["Pagament segur", "Confirmació per correu", "Dades protegides"],
     closedFollow: "Segueix Culdesac per assabentar-te del pròxim torneig.",
+    discordQuestion: "Tens dubtes?",
+    discordHelp: "Parla amb l’organització al Discord",
   },
   registration: {
     playerRegistration: "Registre de jugador",
@@ -119,6 +121,7 @@ const ca = {
     tagline: "Competició online. Rivalitat real.",
     tournament: "Torneig",
     format: "Com funciona",
+    discord: "Discord de Culdesac",
     terms: "Termes",
     privacy: "Privacitat",
     independent: "Esdeveniment independent",
@@ -136,6 +139,8 @@ const ca = {
     titleTail: "del quadre.",
     intro: "Hem rebut el pagament i estem acabant de confirmar la teva plaça. En uns instants rebràs un correu amb el comprovant i tota la informació de la inscripció.",
     back: "Tornar a Culdesac",
+    discordAction: "Entrar al Discord",
+    discordNotice: "Entra al Discord: tota la competició, les convocatòries i el contacte amb els àrbitres es gestionen allà.",
     rules: "Consultar les normes",
     help: "El correu pot trigar uns minuts. Si no el veus, revisa també la carpeta de correu brossa.",
     statusAria: "Estat de la inscripció",
@@ -146,7 +151,7 @@ const ca = {
     steps: [
       { title: "Pagament rebut", description: "Stripe ha completat el pagament de manera segura." },
       { title: "Confirmació automàtica", description: "Estem validant la plaça i preparant els detalls de la inscripció." },
-      { title: "Revisa el teu correu", description: "T’hi enviarem la confirmació i la informació necessària per competir." },
+      { title: "Entra al Discord", description: "Uneix-te al servidor per seguir les convocatòries i contactar amb els àrbitres durant la competició." },
     ],
     tagline: "Competició online · Rivalitat real",
     marquee: ["PAGAMENT COMPLETAT", "PLAÇA EN PROCÉS", "ENS VEIEM AL QUADRE"],
@@ -211,6 +216,8 @@ const es: typeof ca = {
     closedDescription: "Las inscripciones de este torneo ya no están disponibles.",
     trust: ["Pago seguro", "Confirmación por correo", "Datos protegidos"],
     closedFollow: "Sigue a Culdesac para enterarte del próximo torneo.",
+    discordQuestion: "¿Tienes dudas?",
+    discordHelp: "Habla con la organización en Discord",
   },
   registration: {
     playerRegistration: "Registro de jugador", title: "Reserva tu plaza", required: "Todos los campos marcados con * son obligatorios.",
@@ -242,6 +249,7 @@ const es: typeof ca = {
   },
   footer: {
     tagline: "Competición online. Rivalidad real.", tournament: "Torneo", format: "Cómo funciona", terms: "Términos",
+    discord: "Discord de Culdesac",
     privacy: "Privacidad", independent: "Evento independiente", mobileAction: "Inscribirme", linksAria: "Enlaces legales",
   },
   success: {
@@ -250,13 +258,15 @@ const es: typeof ca = {
     kicker: "Inscripción completada · Culdesac", titleLead: "Ya estás dentro", titleTail: "del cuadro.",
     intro: "Hemos recibido el pago y estamos terminando de confirmar tu plaza. En unos instantes recibirás un correo con el comprobante y toda la información de la inscripción.",
     back: "Volver a Culdesac", rules: "Consultar las normas",
+    discordAction: "Entrar al Discord",
+    discordNotice: "Entra al Discord: toda la competición, las convocatorias y el contacto con los árbitros se gestionan allí.",
     help: "El correo puede tardar unos minutos. Si no lo ves, revisa también la carpeta de correo no deseado.",
     statusAria: "Estado de la inscripción", placeStatus: "Estado de la plaza", processing: "En proceso", nextStep: "El siguiente paso",
     prepare: "Prepárate para competir.",
     steps: [
       { title: "Pago recibido", description: "Stripe ha completado el pago de forma segura." },
       { title: "Confirmación automática", description: "Estamos validando la plaza y preparando los detalles de la inscripción." },
-      { title: "Revisa tu correo", description: "Te enviaremos la confirmación y la información necesaria para competir." },
+      { title: "Entra al Discord", description: "Únete al servidor para seguir las convocatorias y contactar con los árbitros durante la competición." },
     ],
     tagline: "Competición online · Rivalidad real", marquee: ["PAGO COMPLETADO", "PLAZA EN PROCESO", "NOS VEMOS EN EL CUADRO"],
   },
