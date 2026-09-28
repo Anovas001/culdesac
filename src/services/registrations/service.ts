@@ -9,7 +9,7 @@ export type ActiveTournament = {
 
 export type ExistingRegistration = {
   id: string;
-  status: "PENDING_PAYMENT" | "PAID" | "EXPIRED" | "CANCELLED" | "REFUNDED";
+  status: "PENDING_PAYMENT" | "PAID" | "INVITED" | "EXPIRED" | "CANCELLED" | "REFUNDED";
 };
 
 export type RegistrationRepository = {
@@ -57,7 +57,7 @@ export async function createOrReuseRegistration(
     participant.dniNormalized,
   );
   if (existing) {
-    if (existing.status === "PAID") {
+    if (existing.status === "PAID" || existing.status === "INVITED") {
       throw new DuplicatePaidRegistrationError();
     }
 

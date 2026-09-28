@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 import { cookieName, isAdmin } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { parseRegistrationStatus } from "@/lib/registration-status";
+import { parseRegistrationFilter, registrationFilterWhere } from "@/lib/registration-status";
 import { buildRegistrationsExcel } from "@/lib/registrations-excel";
 
 export const runtime = "nodejs";
@@ -17,7 +17,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
     return fail("La sessió ha caducat. Torna a iniciar sessió per exportar les inscripcions.", 401);
   }
   const rawStatus = new URL(request.url).searchParams.get("status");
-  const status = parseRegistrationStatus(rawStatus);
+  const status = parseRegistrationFilter(rawStatus);
   if (rawStatus !== null && !status) return fail("El filtre d’inscripcions no és vàlid.", 400);
   const { id } = await params;
   try {
@@ -26,7 +26,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
     });
     if (!tournament) return fail("No s’ha trobat el torneig.", 404);
     const registrations = await db.registration.findMany({
-      where: { tournamentId: id, ...(status ? { status } : {}) },
+      where: { tournamentId: id, ...registrationFilterWhere(status) },
       orderBy: [{ fullName: "asc" }, { id: "asc" }],
       select: { id: true, fullName: true, epicUsername: true, discordUsername: true,
         email: true, phone: true, dni: true, postalCode: true, status: true,

@@ -17,6 +17,7 @@ enum TournamentStatus {
 enum RegistrationStatus {
   PENDING_PAYMENT
   PAID
+  INVITED
   EXPIRED
   CANCELLED
   REFUNDED

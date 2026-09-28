@@ -15,6 +15,16 @@ const options = {
 };
 
 describe("Excel registration export", () => {
+  it("exports paid and invited participants as confirmed without inventing a payment", async () => {
+    const { buffer } = await buildRegistrationsExcel({ ...options, status: "CONFIRMED", registrations: [registration, { ...registration, id: "invited-1", status: "INVITED", amountCents: 0, paidAt: null }] });
+    const book = new ExcelJS.Workbook();
+    await book.xlsx.load(buffer);
+    const sheet = book.getWorksheet("Inscripcions")!;
+    expect(sheet.getCell("A3").text).toContain("Confirmades");
+    expect(sheet.getCell("J7").value).toBe("Invitació");
+    expect(sheet.getCell("K7").value).toBe(0);
+    expect(sheet.getCell("N7").value).toBeNull();
+  });
   it("round-trips actual XLSX with typed amounts, literal identifiers, local dates and referee tools", async () => {
     const { buffer, filename } = await buildRegistrationsExcel({ ...options, status: "PAID" });
     const book = new ExcelJS.Workbook();

@@ -8,6 +8,7 @@ export type Confirmation = {
   epicUsername: string;
   amountCents: number;
   currency: string;
+  status?: string;
 };
 export type ConfirmationTournament = { name: string; eventDate: Date };
 export type ConfirmationTemplateOptions = {
@@ -35,15 +36,18 @@ export function renderRegistrationConfirmation(
     throw new Error("Email site URL must use HTTP or HTTPS.");
   }
   const siteUrl = site.origin;
+  const invited = registration.status === "INVITED";
+  const confirmationMessage = invited ? "La teva invitació gratuïta està confirmada. No has de fer cap pagament." : "Hem rebut el teu pagament i la teva plaça està confirmada.";
+  const amountLabel = invited ? "Import de la invitació" : "Import pagat";
   const amount = formatMoney(registration.amountCents, registration.currency);
   const date = new Intl.DateTimeFormat("ca-ES", {
     dateStyle: "long", timeStyle: "short", timeZone: options.timeZone,
   }).format(tournament.eventDate);
   const dateWithZone = `${date} (${options.timeZone})`;
-  const subject = `${options.preview ? "[MOSTRA] " : ""}Inscripció confirmada — ${tournament.name}`;
+  const subject = `${options.preview ? "[MOSTRA] " : ""}${invited ? "Invitació confirmada" : "Inscripció confirmada"} — ${tournament.name}`;
   const nextStep = "Entra al Discord de Culdesac: és on es gestiona tota la competició, es publiquen les convocatòries i pots contactar amb els àrbitres. Uneix-t’hi abans que comenci el torneig. Conserva aquest correu: hi tens les dades de la teva inscripció.";
   const previewNote = "Mostra de disseny amb dades d’exemple. No s’ha creat cap inscripció ni s’ha fet cap cobrament.";
-  const text = `${options.preview ? `${previewNote}\n\n` : ""}CULDESAC · JA ETS DINS.\n\nHola ${registration.fullName},\n\nHem rebut el teu pagament i la teva plaça està confirmada.\n\n${tournament.name}\nParticipant: ${registration.fullName}\nJugador de Fortnite: ${registration.epicUsername}\nData i hora: ${dateWithZone}\nImport pagat: ${amount}\nCodi d’inscripció: ${registration.id}\n\nEl següent pas: entra al Discord.\n${nextStep}\n\nEntrar al Discord: ${DISCORD_INVITE_URL}\n\nTorna a Culdesac: ${siteUrl}/\n\nTens algun dubte? Respon aquest correu o escriu a ${confirmationReplyTo}.\n\nEns veiem al Culdesac.\nTu contra el quadre.\n\nReps aquest correu com a confirmació de la teva inscripció.\nCondicions: ${siteUrl}/legal/terms\nPrivacitat: ${siteUrl}/legal/privacy`;
+  const text = `${options.preview ? `${previewNote}\n\n` : ""}CULDESAC · JA ETS DINS.\n\nHola ${registration.fullName},\n\n${confirmationMessage}\n\n${tournament.name}\nParticipant: ${registration.fullName}\nJugador de Fortnite: ${registration.epicUsername}\nData i hora: ${dateWithZone}\n${amountLabel}: ${amount}\nCodi d’inscripció: ${registration.id}\n\nEl següent pas: entra al Discord.\n${nextStep}\n\nEntrar al Discord: ${DISCORD_INVITE_URL}\n\nTorna a Culdesac: ${siteUrl}/\n\nTens algun dubte? Respon aquest correu o escriu a ${confirmationReplyTo}.\n\nEns veiem al Culdesac.\nTu contra el quadre.\n\nReps aquest correu com a confirmació de la teva inscripció.\nCondicions: ${siteUrl}/legal/terms\nPrivacitat: ${siteUrl}/legal/privacy`;
 
   const name = escapeHtml(registration.fullName);
   const nickname = escapeHtml(registration.epicUsername);
@@ -74,7 +78,7 @@ export function renderRegistrationConfirmation(
   </style>
 </head>
 <body style="margin:0;padding:0;width:100%;background-color:#0a0a0f;color:#f5f5f7;font-family:Arial,Helvetica,sans-serif;">
-  <div style="display:none;font-size:1px;color:#0a0a0f;line-height:1px;max-height:0;max-width:0;opacity:0;overflow:hidden;mso-hide:all;">${options.preview ? escapeHtml(previewNote) : `Pagament rebut. La teva plaça a ${title} està confirmada. Aquí tens les dades per competir.`}</div>
+  <div style="display:none;font-size:1px;color:#0a0a0f;line-height:1px;max-height:0;max-width:0;opacity:0;overflow:hidden;mso-hide:all;">${options.preview ? escapeHtml(previewNote) : `${invited ? "Invitació confirmada." : "Pagament rebut."} La teva plaça a ${title} està confirmada. Aquí tens les dades per competir.`}</div>
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0" bgcolor="#0a0a0f" style="width:100%;background-color:#0a0a0f;">
     <tr><td class="outer" align="center" style="padding:32px 16px;">
       <!--[if mso]><table role="presentation" width="640" align="center"><tr><td><![endif]-->
@@ -88,10 +92,10 @@ export function renderRegistrationConfirmation(
         </td></tr>
         ${options.preview ? `<tr><td class="pad" bgcolor="#242430" style="padding:12px 40px;color:#c4c4d1;font-size:12px;line-height:18px;">${escapeHtml(previewNote)}</td></tr>` : ""}
         <tr><td class="pad" bgcolor="#390078" style="padding:36px 40px 40px;background-color:#390078;background-image:linear-gradient(125deg,#390078,#6500bf);">
-          <p style="margin:0 0 22px;color:#fff200;font-size:11px;line-height:18px;font-weight:bold;letter-spacing:2px;">PAGAMENT REBUT / PLAÇA CONFIRMADA</p>
+          <p style="margin:0 0 22px;color:#fff200;font-size:11px;line-height:18px;font-weight:bold;letter-spacing:2px;">${invited ? "INVITACIÓ GRATUÏTA" : "PAGAMENT REBUT"} / PLAÇA CONFIRMADA</p>
           <h1 class="headline" style="margin:0 0 24px;font-family:Arial Black,Arial,Helvetica,sans-serif;font-size:76px;line-height:70px;font-weight:900;letter-spacing:-3px;color:#ffffff;">JA ETS<br><span style="color:#fff200;">DINS.</span></h1>
           <p style="margin:0 0 8px;color:#ffffff;font-size:18px;line-height:28px;font-weight:bold;overflow-wrap:anywhere;">Hola ${name},</p>
-          <p style="margin:0;color:#eee5ff;font-size:16px;line-height:25px;">Hem rebut el teu pagament i la teva plaça està confirmada. Ara et toca demostrar-ho.</p>
+          <p style="margin:0;color:#eee5ff;font-size:16px;line-height:25px;">${confirmationMessage} Ara et toca demostrar-ho.</p>
         </td></tr>
         <tr><td bgcolor="#ff00e5" align="center" style="padding:12px 20px;color:#0a0a0f;font-size:11px;line-height:18px;font-weight:bold;letter-spacing:2px;">CULDESAC &nbsp; / &nbsp; TU CONTRA EL QUADRE.</td></tr>
         <tr><td class="pad" style="padding:34px 40px 28px;">
@@ -115,7 +119,7 @@ export function renderRegistrationConfirmation(
                 <p style="margin:4px 0 0;color:#b5b5c5;font-size:12px;line-height:18px;">Hora peninsular · ${escapeHtml(options.timeZone)}</p>
               </td>
               <td class="detail" width="45%" valign="top" style="padding:0 0 24px;">
-                <p style="margin:0 0 6px;color:#b5b5c5;font-size:11px;line-height:18px;font-weight:bold;letter-spacing:1px;">IMPORT PAGAT</p>
+                <p style="margin:0 0 6px;color:#b5b5c5;font-size:11px;line-height:18px;font-weight:bold;letter-spacing:1px;">${amountLabel.toUpperCase()}</p>
                 <p style="margin:0;color:#fff200;font-size:28px;line-height:34px;font-weight:bold;">${escapeHtml(amount)}</p>
               </td>
             </tr>

@@ -1,6 +1,6 @@
 import ExcelJS from "exceljs";
 import type { Registration } from "@/generated/prisma/client";
-import { registrationStatusLabels } from "./registration-status";
+import { registrationStatusLabels, registrationFilterLabels, type RegistrationFilter } from "./registration-status";
 
 export type ExportRegistration = Pick<Registration,
   "id" | "fullName" | "epicUsername" | "discordUsername" | "email" | "phone" |
@@ -10,7 +10,7 @@ export type ExportRegistration = Pick<Registration,
 type ExportOptions = {
   tournament: { name: string; slug: string; eventDate: Date };
   registrations: ExportRegistration[];
-  status?: ExportRegistration["status"];
+  status?: RegistrationFilter;
   timeZone: string;
   exportedAt?: Date;
 };
@@ -62,7 +62,7 @@ export async function buildRegistrationsExcel({ tournament, registrations, statu
   sheet.mergeCells("A2:O2");
   sheet.getCell("A2").value = `Torneig: ${formatDate(tournament.eventDate)} · Hores en ${timeZone} · Exportació: ${formatDate(exportedAt)}`;
   sheet.mergeCells("A3:O3");
-  sheet.getCell("A3").value = `Filtre: ${status ? registrationStatusLabels[status] : "Totes les inscripcions"} · ${registrations.length} inscripcions · Present i Observacions són camps de treball editables; no se sincronitzen amb el web.`;
+  sheet.getCell("A3").value = `Filtre: ${status ? registrationFilterLabels[status] : "Totes les inscripcions"} · ${registrations.length} inscripcions · Present i Observacions són camps de treball editables; no se sincronitzen amb el web.`;
   for (const number of [2, 3]) {
     sheet.getRow(number).height = 30;
     sheet.getCell(`A${number}`).font = { name: "Calibri", size: 11, color: { argb: "FF494256" } };

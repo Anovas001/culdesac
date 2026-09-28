@@ -6,6 +6,15 @@ const tournament = { name: "Culdesac Open — Fortnite 1v1", eventDate: new Date
 const options = { siteUrl: "https://culdesac.gsegames.com", timeZone: "Europe/Madrid" };
 
 describe("registration confirmation template", () => {
+  it("confirms an invitation without claiming payment in either version", () => {
+    const result = renderRegistrationConfirmation({ ...registration, status: "INVITED", amountCents: 0 }, tournament, options);
+    for (const body of [result.html, result.text]) {
+      expect(body).toContain("invitació gratuïta");
+      expect(body).not.toMatch(/pagament rebut|import pagat|hem rebut el teu pagament/i);
+      expect(body).toContain("https://discord.gg/GuhRNKmD4p");
+    }
+    expect(result.subject).toContain("Invitació confirmada");
+  });
   it("includes the actual receipt data in HTML and plain text, with the configured time zone", () => {
     const { html, text, subject } = renderRegistrationConfirmation(registration, tournament, options);
     for (const body of [html, text]) {

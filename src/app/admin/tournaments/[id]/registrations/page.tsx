@@ -7,27 +7,30 @@ import { cookieName, isAdmin } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { formatMoney } from "@/lib/money";
 import { ExportRegistrationsButton } from "@/components/admin/export-registrations-button";
-import { parseRegistrationStatus, registrationStatuses, registrationStatusLabels } from "@/lib/registration-status";
+import { parseRegistrationFilter, registrationFilters, registrationFilterLabels, registrationStatusLabels, registrationFilterWhere } from "@/lib/registration-status";
 
 export default async function Registrations({
   params,
   searchParams,
 }: {
   params: Promise<{ id: string }>;
-  searchParams: Promise<{ status?: string }>;
+  searchParams: Promise<{ status?: string; created?: string }>;
 }) {
   if (!await isAdmin((await cookies()).get(cookieName)?.value)) redirect("/admin/login");
 
   const { id } = await params;
-  const { status } = await searchParams;
-  const activeFilter = parseRegistrationStatus(status);
+  const { status, created } = await searchParams;
+  const activeFilter = parseRegistrationFilter(status);
   const tournament = await db.tournament.findUnique({ where: { id } });
   if (!tournament) notFound();
 
-  const registrations = await db.registration.findMany({
-    where: { tournamentId: id, ...(activeFilter ? { status: activeFilter } : {}) },
+  const [registrations, groups] = await Promise.all([db.registration.findMany({
+    where: { tournamentId: id, ...registrationFilterWhere(activeFilter) },
     orderBy: { createdAt: "desc" },
-  });
+  }), db.registration.groupBy({ by: ["status"], where: { tournamentId: id }, _count: { _all: true } })]);
+  const count = (state: string) => groups.find((group) => group.status === state)?._count._all ?? 0;
+  const paid = count("PAID");
+  const invited = count("INVITED");
 
   return (
     <main className="admin-shell">
@@ -37,11 +40,20 @@ export default async function Registrations({
           <p className="eyebrow">PARTICIPANTS</p>
           <h1>Inscripcions</h1>
         </div>
+        {(tournament.status === "OPEN" || tournament.status === "CLOSED") && <Link className="button" href={`/admin/tournaments/${id}/registrations/invite`}>+ Afegir invitació</Link>}
+      </div>
+      {created === "1" && <p className="invitation-notice" role="status">Invitació creada i plaça confirmada. No s’ha enviat cap correu; pots fer-ho amb el botó «Enviar confirmació» de la inscripció.</p>}
+      <section className="metrics" aria-label="Resum de les inscripcions del torneig">
+        <div><small>Places confirmades</small><strong>{paid + invited}{tournament.capacity !== null ? ` / ${tournament.capacity}` : ""}</strong><span>Pagades + invitacions</span></div>
+        <div><small>Pagades</small><strong>{paid}</strong><span>Amb pagament confirmat</span></div>
+        <div><small>Invitacions</small><strong>{invited}</strong><span>Confirmades sense cobrament</span></div>
+      </section>
+      <div className="section-head registration-filters">
         <div className="filters">
           <Link href={`/admin/tournaments/${id}/registrations`} aria-current={!activeFilter ? "page" : undefined}>Totes</Link>
-          {registrationStatuses.map((filter) => (
+          {registrationFilters.map((filter) => (
             <Link key={filter} href={`/admin/tournaments/${id}/registrations?status=${filter}`} aria-current={activeFilter === filter ? "page" : undefined}>
-              {registrationStatusLabels[filter]}
+              {registrationFilterLabels[filter]}
             </Link>
           ))}
         </div>
@@ -50,7 +62,7 @@ export default async function Registrations({
       <div className="admin-card section-head">
         <div>
           <strong>Exportació per als àrbitres</strong>
-          <p className="muted">Descarrega el filtre actual. Tria «Pagada» per obtenir només les places confirmades.</p>
+          <p className="muted">Descarrega el filtre actual. Tria «Confirmades» per incloure les pagades i les invitacions.</p>
         </div>
         <ExportRegistrationsButton tournamentId={id} status={activeFilter} count={registrations.length} />
       </div>
@@ -63,7 +75,7 @@ export default async function Registrations({
               <th>Identificació</th>
               <th>Contacte</th>
               <th>Consentiments</th>
-              <th>Pagament</th>
+              <th>Estat / import</th>
               <th>Data</th>
               <th></th>
             </tr>
@@ -91,15 +103,16 @@ export default async function Registrations({
                   )}
                 </td>
                 <td>
-                  <span className={`badge ${registration.status.toLowerCase()}`}>{registration.status}</span><br />
-                  <small>{formatMoney(registration.amountCents, registration.currency)}</small>
+                  <span className={`badge ${registration.status.toLowerCase()}`}>{registrationStatusLabels[registration.status]}</span><br />
+                  <small>{registration.status === "INVITED" ? "Gratuïta · Sense cobrament" : formatMoney(registration.amountCents, registration.currency)}</small>
                 </td>
                 <td>{new Intl.DateTimeFormat("ca-ES", { dateStyle: "short", timeStyle: "short" }).format(registration.createdAt)}</td>
                 <td>
-                  {registration.status === "PAID" && (
+                  {(registration.status === "PAID" || registration.status === "INVITED") && (
                     <form action={resendConfirmation}>
                       <input type="hidden" name="id" value={registration.id} />
-                      <button>Reenviar email</button>
+                      <button>{registration.confirmationEmailSentAt ? "Reenviar email" : "Enviar confirmació"}</button>
+                      {registration.confirmationEmailLastError ? <p className="error">L’últim enviament ha fallat. Torna-ho a provar.</p> : registration.confirmationEmailSentAt ? <p className="muted">Confirmació enviada</p> : <p className="muted">Correu encara no enviat</p>}
                     </form>
                   )}
                 </td>

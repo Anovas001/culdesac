@@ -22,6 +22,7 @@ export type TournamentStatus = (typeof TournamentStatus)[keyof typeof Tournament
 export const RegistrationStatus = {
   PENDING_PAYMENT: 'PENDING_PAYMENT',
   PAID: 'PAID',
+  INVITED: 'INVITED',
   EXPIRED: 'EXPIRED',
   CANCELLED: 'CANCELLED',
   REFUNDED: 'REFUNDED'

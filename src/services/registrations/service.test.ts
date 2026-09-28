@@ -38,6 +38,13 @@ function repository(overrides: Partial<RegistrationRepository> = {}): Registrati
 }
 
 describe("createOrReuseRegistration", () => {
+  it("does not change an invited participant or start another checkout", async () => {
+    const db = repository({ findExisting: vi.fn().mockResolvedValue({ id: "invited-1", status: "INVITED" }) });
+    await expect(createOrReuseRegistration(db, participant)).rejects.toBeInstanceOf(DuplicatePaidRegistrationError);
+    expect(db.updateParticipant).not.toHaveBeenCalled();
+    expect(db.reactivate).not.toHaveBeenCalled();
+    expect(db.create).not.toHaveBeenCalled();
+  });
   it("rejects registrations when the active tournament is closed", async () => {
     const db = repository({
       getActiveTournament: vi.fn().mockResolvedValue({ ...openTournament, status: "CLOSED" }),
