@@ -7,6 +7,8 @@ import { cookieName, isAdmin } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { formatMoney } from "@/lib/money";
 import { ExportRegistrationsButton } from "@/components/admin/export-registrations-button";
+import { ChallongePanel } from "@/components/admin/challonge-panel";
+import { getServerEnv } from "@/lib/env";
 import { parseRegistrationFilter, registrationFilters, registrationFilterLabels, registrationStatusLabels, registrationFilterWhere } from "@/lib/registration-status";
 
 export default async function Registrations({
@@ -24,10 +26,13 @@ export default async function Registrations({
   const tournament = await db.tournament.findUnique({ where: { id } });
   if (!tournament) notFound();
 
-  const [registrations, groups] = await Promise.all([db.registration.findMany({
+  const [registrations, groups, published, withdrawn] = await Promise.all([db.registration.findMany({
     where: { tournamentId: id, ...registrationFilterWhere(activeFilter) },
     orderBy: { createdAt: "desc" },
-  }), db.registration.groupBy({ by: ["status"], where: { tournamentId: id }, _count: { _all: true } })]);
+  }), db.registration.groupBy({ by: ["status"], where: { tournamentId: id }, _count: { _all: true } }),
+  db.registration.count({ where: { tournamentId: id, status: { in: ["PAID", "INVITED"] }, challongeParticipantId: { not: null } } }),
+  db.registration.count({ where: { tournamentId: id, status: { notIn: ["PAID", "INVITED"] }, challongeParticipantId: { not: null } } }),
+  ]);
   const count = (state: string) => groups.find((group) => group.status === state)?._count._all ?? 0;
   const paid = count("PAID");
   const invited = count("INVITED");
@@ -67,6 +72,11 @@ export default async function Registrations({
         <ExportRegistrationsButton tournamentId={id} status={activeFilter} count={registrations.length} />
       </div>
 
+      <ChallongePanel tournamentId={id} url={tournament.challongeUrl} configured={Boolean(getServerEnv().CHALLONGE_API_KEY)}
+        confirmed={paid + invited} published={published} withdrawn={withdrawn} frozen={Boolean(tournament.challongePublishAttemptedAt) || published + withdrawn > 0}
+        lastSynced={tournament.challongeLastSyncedAt ? new Intl.DateTimeFormat("ca-ES", { dateStyle: "short", timeStyle: "short", timeZone: "Europe/Madrid" }).format(tournament.challongeLastSyncedAt) : null}
+        lastError={tournament.challongeLastError} />
+
       <section className="admin-card table-wrap">
         <table>
           <thead>
@@ -87,6 +97,7 @@ export default async function Registrations({
                   <strong>{registration.fullName}</strong><br />
                   <small>Fortnite: {registration.epicUsername}</small><br />
                   <small>Discord: {registration.discordUsername}</small>
+                  {registration.challongeParticipantId && <><br /><small className="status">Publicat a Challonge</small></>}
                 </td>
                 <td>
                   <strong>{registration.dni}</strong><br />

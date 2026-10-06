@@ -773,7 +773,13 @@ export const TournamentScalarFieldEnum = {
   heroImageUrl: 'heroImageUrl',
   status: 'status',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  challongeTournamentId: 'challongeTournamentId',
+  challongeUrl: 'challongeUrl',
+  challongeCommunity: 'challongeCommunity',
+  challongePublishAttemptedAt: 'challongePublishAttemptedAt',
+  challongeLastSyncedAt: 'challongeLastSyncedAt',
+  challongeLastError: 'challongeLastError'
 } as const
 
 export type TournamentScalarFieldEnum = (typeof TournamentScalarFieldEnum)[keyof typeof TournamentScalarFieldEnum]
@@ -814,7 +820,9 @@ export const RegistrationScalarFieldEnum = {
   updatedAt: 'updatedAt',
   paidAt: 'paidAt',
   confirmationEmailSentAt: 'confirmationEmailSentAt',
-  confirmationEmailLastError: 'confirmationEmailLastError'
+  confirmationEmailLastError: 'confirmationEmailLastError',
+  challongeParticipantId: 'challongeParticipantId',
+  challongePublishedAt: 'challongePublishedAt'
 } as const
 
 export type RegistrationScalarFieldEnum = (typeof RegistrationScalarFieldEnum)[keyof typeof RegistrationScalarFieldEnum]

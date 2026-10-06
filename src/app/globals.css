@@ -1,5 +1,15 @@
 @import "tailwindcss";
 
+.challonge-panel .eyebrow{margin-top:0}
+.challonge-panel .muted{line-height:1.6}
+.challonge-panel .form{margin-top:20px}
+.challonge-panel input[readonly]{color:#b7c2e8}
+.challonge-summary{display:flex;gap:14px;flex-wrap:wrap;padding:14px 0;border-top:1px solid #293456;border-bottom:1px solid #293456}
+.challonge-summary span{color:#9eacca;font-size:.9rem}
+.challonge-summary strong{color:#f5f7ff;font-size:1.2rem;margin-right:4px}
+.challonge-feedback{line-height:1.6}
+.challonge-footnote{font-size:.85rem;margin-bottom:0}
+
 .badge.invited{background:#492c70;color:#e2c2ff}
 .invitation-form{max-width:900px}
 .invitation-form fieldset{border:0;padding:0;margin:0;min-width:0}

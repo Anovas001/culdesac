@@ -61,6 +61,8 @@ export type RegistrationMinAggregateOutputType = {
   paidAt: Date | null
   confirmationEmailSentAt: Date | null
   confirmationEmailLastError: string | null
+  challongeParticipantId: string | null
+  challongePublishedAt: Date | null
 }
 
 export type RegistrationMaxAggregateOutputType = {
@@ -90,6 +92,8 @@ export type RegistrationMaxAggregateOutputType = {
   paidAt: Date | null
   confirmationEmailSentAt: Date | null
   confirmationEmailLastError: string | null
+  challongeParticipantId: string | null
+  challongePublishedAt: Date | null
 }
 
 export type RegistrationCountAggregateOutputType = {
@@ -119,6 +123,8 @@ export type RegistrationCountAggregateOutputType = {
   paidAt: number
   confirmationEmailSentAt: number
   confirmationEmailLastError: number
+  challongeParticipantId: number
+  challongePublishedAt: number
   _all: number
 }
 
@@ -158,6 +164,8 @@ export type RegistrationMinAggregateInputType = {
   paidAt?: true
   confirmationEmailSentAt?: true
   confirmationEmailLastError?: true
+  challongeParticipantId?: true
+  challongePublishedAt?: true
 }
 
 export type RegistrationMaxAggregateInputType = {
@@ -187,6 +195,8 @@ export type RegistrationMaxAggregateInputType = {
   paidAt?: true
   confirmationEmailSentAt?: true
   confirmationEmailLastError?: true
+  challongeParticipantId?: true
+  challongePublishedAt?: true
 }
 
 export type RegistrationCountAggregateInputType = {
@@ -216,6 +226,8 @@ export type RegistrationCountAggregateInputType = {
   paidAt?: true
   confirmationEmailSentAt?: true
   confirmationEmailLastError?: true
+  challongeParticipantId?: true
+  challongePublishedAt?: true
   _all?: true
 }
 
@@ -332,6 +344,8 @@ export type RegistrationGroupByOutputType = {
   paidAt: Date | null
   confirmationEmailSentAt: Date | null
   confirmationEmailLastError: string | null
+  challongeParticipantId: string | null
+  challongePublishedAt: Date | null
   _count: RegistrationCountAggregateOutputType | null
   _avg: RegistrationAvgAggregateOutputType | null
   _sum: RegistrationSumAggregateOutputType | null
@@ -384,6 +398,8 @@ export type RegistrationWhereInput = {
   paidAt?: Prisma.DateTimeNullableFilter<"Registration"> | Date | string | null
   confirmationEmailSentAt?: Prisma.DateTimeNullableFilter<"Registration"> | Date | string | null
   confirmationEmailLastError?: Prisma.StringNullableFilter<"Registration"> | string | null
+  challongeParticipantId?: Prisma.StringNullableFilter<"Registration"> | string | null
+  challongePublishedAt?: Prisma.DateTimeNullableFilter<"Registration"> | Date | string | null
   tournament?: Prisma.XOR<Prisma.TournamentScalarRelationFilter, Prisma.TournamentWhereInput>
 }
 
@@ -414,6 +430,8 @@ export type RegistrationOrderByWithRelationInput = {
   paidAt?: Prisma.SortOrderInput | Prisma.SortOrder
   confirmationEmailSentAt?: Prisma.SortOrderInput | Prisma.SortOrder
   confirmationEmailLastError?: Prisma.SortOrderInput | Prisma.SortOrder
+  challongeParticipantId?: Prisma.SortOrderInput | Prisma.SortOrder
+  challongePublishedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   tournament?: Prisma.TournamentOrderByWithRelationInput
 }
 
@@ -424,6 +442,7 @@ export type RegistrationWhereUniqueInput = Prisma.AtLeast<{
   tournamentId_emailNormalized?: Prisma.RegistrationTournamentIdEmailNormalizedCompoundUniqueInput
   tournamentId_epicUsernameNormalized?: Prisma.RegistrationTournamentIdEpicUsernameNormalizedCompoundUniqueInput
   tournamentId_dniNormalized?: Prisma.RegistrationTournamentIdDniNormalizedCompoundUniqueInput
+  tournamentId_challongeParticipantId?: Prisma.RegistrationTournamentIdChallongeParticipantIdCompoundUniqueInput
   AND?: Prisma.RegistrationWhereInput | Prisma.RegistrationWhereInput[]
   OR?: Prisma.RegistrationWhereInput[]
   NOT?: Prisma.RegistrationWhereInput | Prisma.RegistrationWhereInput[]
@@ -450,8 +469,10 @@ export type RegistrationWhereUniqueInput = Prisma.AtLeast<{
   paidAt?: Prisma.DateTimeNullableFilter<"Registration"> | Date | string | null
   confirmationEmailSentAt?: Prisma.DateTimeNullableFilter<"Registration"> | Date | string | null
   confirmationEmailLastError?: Prisma.StringNullableFilter<"Registration"> | string | null
+  challongeParticipantId?: Prisma.StringNullableFilter<"Registration"> | string | null
+  challongePublishedAt?: Prisma.DateTimeNullableFilter<"Registration"> | Date | string | null
   tournament?: Prisma.XOR<Prisma.TournamentScalarRelationFilter, Prisma.TournamentWhereInput>
-}, "id" | "stripeCheckoutSessionId" | "stripePaymentIntentId" | "tournamentId_emailNormalized" | "tournamentId_epicUsernameNormalized" | "tournamentId_dniNormalized">
+}, "id" | "stripeCheckoutSessionId" | "stripePaymentIntentId" | "tournamentId_emailNormalized" | "tournamentId_epicUsernameNormalized" | "tournamentId_dniNormalized" | "tournamentId_challongeParticipantId">
 
 export type RegistrationOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -480,6 +501,8 @@ export type RegistrationOrderByWithAggregationInput = {
   paidAt?: Prisma.SortOrderInput | Prisma.SortOrder
   confirmationEmailSentAt?: Prisma.SortOrderInput | Prisma.SortOrder
   confirmationEmailLastError?: Prisma.SortOrderInput | Prisma.SortOrder
+  challongeParticipantId?: Prisma.SortOrderInput | Prisma.SortOrder
+  challongePublishedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.RegistrationCountOrderByAggregateInput
   _avg?: Prisma.RegistrationAvgOrderByAggregateInput
   _max?: Prisma.RegistrationMaxOrderByAggregateInput
@@ -517,6 +540,8 @@ export type RegistrationScalarWhereWithAggregatesInput = {
   paidAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Registration"> | Date | string | null
   confirmationEmailSentAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Registration"> | Date | string | null
   confirmationEmailLastError?: Prisma.StringNullableWithAggregatesFilter<"Registration"> | string | null
+  challongeParticipantId?: Prisma.StringNullableWithAggregatesFilter<"Registration"> | string | null
+  challongePublishedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Registration"> | Date | string | null
 }
 
 export type RegistrationCreateInput = {
@@ -545,6 +570,8 @@ export type RegistrationCreateInput = {
   paidAt?: Date | string | null
   confirmationEmailSentAt?: Date | string | null
   confirmationEmailLastError?: string | null
+  challongeParticipantId?: string | null
+  challongePublishedAt?: Date | string | null
   tournament: Prisma.TournamentCreateNestedOneWithoutRegistrationsInput
 }
 
@@ -575,6 +602,8 @@ export type RegistrationUncheckedCreateInput = {
   paidAt?: Date | string | null
   confirmationEmailSentAt?: Date | string | null
   confirmationEmailLastError?: string | null
+  challongeParticipantId?: string | null
+  challongePublishedAt?: Date | string | null
 }
 
 export type RegistrationUpdateInput = {
@@ -603,6 +632,8 @@ export type RegistrationUpdateInput = {
   paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   confirmationEmailSentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   confirmationEmailLastError?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  challongeParticipantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  challongePublishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   tournament?: Prisma.TournamentUpdateOneRequiredWithoutRegistrationsNestedInput
 }
 
@@ -633,6 +664,8 @@ export type RegistrationUncheckedUpdateInput = {
   paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   confirmationEmailSentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   confirmationEmailLastError?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  challongeParticipantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  challongePublishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type RegistrationCreateManyInput = {
@@ -662,6 +695,8 @@ export type RegistrationCreateManyInput = {
   paidAt?: Date | string | null
   confirmationEmailSentAt?: Date | string | null
   confirmationEmailLastError?: string | null
+  challongeParticipantId?: string | null
+  challongePublishedAt?: Date | string | null
 }
 
 export type RegistrationUpdateManyMutationInput = {
@@ -690,6 +725,8 @@ export type RegistrationUpdateManyMutationInput = {
   paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   confirmationEmailSentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   confirmationEmailLastError?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  challongeParticipantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  challongePublishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type RegistrationUncheckedUpdateManyInput = {
@@ -719,6 +756,8 @@ export type RegistrationUncheckedUpdateManyInput = {
   paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   confirmationEmailSentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   confirmationEmailLastError?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  challongeParticipantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  challongePublishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type RegistrationListRelationFilter = {
@@ -744,6 +783,11 @@ export type RegistrationTournamentIdEpicUsernameNormalizedCompoundUniqueInput = 
 export type RegistrationTournamentIdDniNormalizedCompoundUniqueInput = {
   tournamentId: string
   dniNormalized: string
+}
+
+export type RegistrationTournamentIdChallongeParticipantIdCompoundUniqueInput = {
+  tournamentId: string
+  challongeParticipantId: string
 }
 
 export type RegistrationCountOrderByAggregateInput = {
@@ -773,6 +817,8 @@ export type RegistrationCountOrderByAggregateInput = {
   paidAt?: Prisma.SortOrder
   confirmationEmailSentAt?: Prisma.SortOrder
   confirmationEmailLastError?: Prisma.SortOrder
+  challongeParticipantId?: Prisma.SortOrder
+  challongePublishedAt?: Prisma.SortOrder
 }
 
 export type RegistrationAvgOrderByAggregateInput = {
@@ -806,6 +852,8 @@ export type RegistrationMaxOrderByAggregateInput = {
   paidAt?: Prisma.SortOrder
   confirmationEmailSentAt?: Prisma.SortOrder
   confirmationEmailLastError?: Prisma.SortOrder
+  challongeParticipantId?: Prisma.SortOrder
+  challongePublishedAt?: Prisma.SortOrder
 }
 
 export type RegistrationMinOrderByAggregateInput = {
@@ -835,6 +883,8 @@ export type RegistrationMinOrderByAggregateInput = {
   paidAt?: Prisma.SortOrder
   confirmationEmailSentAt?: Prisma.SortOrder
   confirmationEmailLastError?: Prisma.SortOrder
+  challongeParticipantId?: Prisma.SortOrder
+  challongePublishedAt?: Prisma.SortOrder
 }
 
 export type RegistrationSumOrderByAggregateInput = {
@@ -887,10 +937,6 @@ export type BoolFieldUpdateOperationsInput = {
   set?: boolean
 }
 
-export type NullableDateTimeFieldUpdateOperationsInput = {
-  set?: Date | string | null
-}
-
 export type EnumRegistrationStatusFieldUpdateOperationsInput = {
   set?: $Enums.RegistrationStatus
 }
@@ -921,6 +967,8 @@ export type RegistrationCreateWithoutTournamentInput = {
   paidAt?: Date | string | null
   confirmationEmailSentAt?: Date | string | null
   confirmationEmailLastError?: string | null
+  challongeParticipantId?: string | null
+  challongePublishedAt?: Date | string | null
 }
 
 export type RegistrationUncheckedCreateWithoutTournamentInput = {
@@ -949,6 +997,8 @@ export type RegistrationUncheckedCreateWithoutTournamentInput = {
   paidAt?: Date | string | null
   confirmationEmailSentAt?: Date | string | null
   confirmationEmailLastError?: string | null
+  challongeParticipantId?: string | null
+  challongePublishedAt?: Date | string | null
 }
 
 export type RegistrationCreateOrConnectWithoutTournamentInput = {
@@ -1007,6 +1057,8 @@ export type RegistrationScalarWhereInput = {
   paidAt?: Prisma.DateTimeNullableFilter<"Registration"> | Date | string | null
   confirmationEmailSentAt?: Prisma.DateTimeNullableFilter<"Registration"> | Date | string | null
   confirmationEmailLastError?: Prisma.StringNullableFilter<"Registration"> | string | null
+  challongeParticipantId?: Prisma.StringNullableFilter<"Registration"> | string | null
+  challongePublishedAt?: Prisma.DateTimeNullableFilter<"Registration"> | Date | string | null
 }
 
 export type RegistrationCreateManyTournamentInput = {
@@ -1035,6 +1087,8 @@ export type RegistrationCreateManyTournamentInput = {
   paidAt?: Date | string | null
   confirmationEmailSentAt?: Date | string | null
   confirmationEmailLastError?: string | null
+  challongeParticipantId?: string | null
+  challongePublishedAt?: Date | string | null
 }
 
 export type RegistrationUpdateWithoutTournamentInput = {
@@ -1063,6 +1117,8 @@ export type RegistrationUpdateWithoutTournamentInput = {
   paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   confirmationEmailSentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   confirmationEmailLastError?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  challongeParticipantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  challongePublishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type RegistrationUncheckedUpdateWithoutTournamentInput = {
@@ -1091,6 +1147,8 @@ export type RegistrationUncheckedUpdateWithoutTournamentInput = {
   paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   confirmationEmailSentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   confirmationEmailLastError?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  challongeParticipantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  challongePublishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type RegistrationUncheckedUpdateManyWithoutTournamentInput = {
@@ -1119,6 +1177,8 @@ export type RegistrationUncheckedUpdateManyWithoutTournamentInput = {
   paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   confirmationEmailSentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   confirmationEmailLastError?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  challongeParticipantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  challongePublishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 
@@ -1150,6 +1210,8 @@ export type RegistrationSelect<ExtArgs extends runtime.Types.Extensions.Internal
   paidAt?: boolean
   confirmationEmailSentAt?: boolean
   confirmationEmailLastError?: boolean
+  challongeParticipantId?: boolean
+  challongePublishedAt?: boolean
   tournament?: boolean | Prisma.TournamentDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["registration"]>
 
@@ -1180,6 +1242,8 @@ export type RegistrationSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   paidAt?: boolean
   confirmationEmailSentAt?: boolean
   confirmationEmailLastError?: boolean
+  challongeParticipantId?: boolean
+  challongePublishedAt?: boolean
   tournament?: boolean | Prisma.TournamentDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["registration"]>
 
@@ -1210,6 +1274,8 @@ export type RegistrationSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   paidAt?: boolean
   confirmationEmailSentAt?: boolean
   confirmationEmailLastError?: boolean
+  challongeParticipantId?: boolean
+  challongePublishedAt?: boolean
   tournament?: boolean | Prisma.TournamentDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["registration"]>
 
@@ -1240,9 +1306,11 @@ export type RegistrationSelectScalar = {
   paidAt?: boolean
   confirmationEmailSentAt?: boolean
   confirmationEmailLastError?: boolean
+  challongeParticipantId?: boolean
+  challongePublishedAt?: boolean
 }
 
-export type RegistrationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tournamentId" | "fullName" | "email" | "emailNormalized" | "phone" | "epicUsername" | "epicUsernameNormalized" | "discordUsername" | "dni" | "dniNormalized" | "postalCode" | "acceptedTerms" | "acceptedPrivacy" | "acceptedMarketing" | "acceptedMarketingAt" | "status" | "amountCents" | "currency" | "stripeCheckoutSessionId" | "stripePaymentIntentId" | "createdAt" | "updatedAt" | "paidAt" | "confirmationEmailSentAt" | "confirmationEmailLastError", ExtArgs["result"]["registration"]>
+export type RegistrationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tournamentId" | "fullName" | "email" | "emailNormalized" | "phone" | "epicUsername" | "epicUsernameNormalized" | "discordUsername" | "dni" | "dniNormalized" | "postalCode" | "acceptedTerms" | "acceptedPrivacy" | "acceptedMarketing" | "acceptedMarketingAt" | "status" | "amountCents" | "currency" | "stripeCheckoutSessionId" | "stripePaymentIntentId" | "createdAt" | "updatedAt" | "paidAt" | "confirmationEmailSentAt" | "confirmationEmailLastError" | "challongeParticipantId" | "challongePublishedAt", ExtArgs["result"]["registration"]>
 export type RegistrationInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   tournament?: boolean | Prisma.TournamentDefaultArgs<ExtArgs>
 }
@@ -1285,6 +1353,8 @@ export type $RegistrationPayload<ExtArgs extends runtime.Types.Extensions.Intern
     paidAt: Date | null
     confirmationEmailSentAt: Date | null
     confirmationEmailLastError: string | null
+    challongeParticipantId: string | null
+    challongePublishedAt: Date | null
   }, ExtArgs["result"]["registration"]>
   composites: {}
 }
@@ -1735,6 +1805,8 @@ export interface RegistrationFieldRefs {
   readonly paidAt: Prisma.FieldRef<"Registration", 'DateTime'>
   readonly confirmationEmailSentAt: Prisma.FieldRef<"Registration", 'DateTime'>
   readonly confirmationEmailLastError: Prisma.FieldRef<"Registration", 'String'>
+  readonly challongeParticipantId: Prisma.FieldRef<"Registration", 'String'>
+  readonly challongePublishedAt: Prisma.FieldRef<"Registration", 'DateTime'>
 }
     
 

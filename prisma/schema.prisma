@@ -24,35 +24,41 @@ enum RegistrationStatus {
 }
 
 model Tournament {
-  id                    String             @id @default(cuid())
-  name                  String
-  slug                  String             @unique
-  headline              String
-  description           String             @db.Text
-  rules                 String             @db.Text
-  nameEs                String?
-  headlineEs            String?
-  descriptionEs         String?            @db.Text
-  rulesEs               String?            @db.Text
-  eventDate             DateTime
-  priceCents            Int
-  currency              String             @default("eur") @db.VarChar(3)
-  capacity              Int?
-  heroImageUrl          String?
-  status                TournamentStatus   @default(DRAFT)
-  createdAt             DateTime           @default(now())
-  updatedAt             DateTime           @updatedAt
-  registrations         Registration[]
-  activeInSiteSettings  SiteSettings?      @relation("ActiveTournament")
+  id                          String           @id @default(cuid())
+  name                        String
+  slug                        String           @unique
+  headline                    String
+  description                 String           @db.Text
+  rules                       String           @db.Text
+  nameEs                      String?
+  headlineEs                  String?
+  descriptionEs               String?          @db.Text
+  rulesEs                     String?          @db.Text
+  eventDate                   DateTime
+  priceCents                  Int
+  currency                    String           @default("eur") @db.VarChar(3)
+  capacity                    Int?
+  heroImageUrl                String?
+  status                      TournamentStatus @default(DRAFT)
+  createdAt                   DateTime         @default(now())
+  updatedAt                   DateTime         @updatedAt
+  challongeTournamentId       String?          @unique
+  challongeUrl                String?
+  challongeCommunity          String?
+  challongePublishAttemptedAt DateTime?
+  challongeLastSyncedAt       DateTime?
+  challongeLastError          String?          @db.Text
+  registrations               Registration[]
+  activeInSiteSettings        SiteSettings?    @relation("ActiveTournament")
 
   @@index([status])
 }
 
 model SiteSettings {
-  id                  Int         @id @default(1)
-  activeTournamentId  String?     @unique
-  activeTournament    Tournament? @relation("ActiveTournament", fields: [activeTournamentId], references: [id], onDelete: Restrict)
-  updatedAt           DateTime    @updatedAt
+  id                 Int         @id @default(1)
+  activeTournamentId String?     @unique
+  activeTournament   Tournament? @relation("ActiveTournament", fields: [activeTournamentId], references: [id], onDelete: Restrict)
+  updatedAt          DateTime    @updatedAt
 }
 
 model Registration {
@@ -82,11 +88,14 @@ model Registration {
   paidAt                     DateTime?
   confirmationEmailSentAt    DateTime?
   confirmationEmailLastError String?            @db.Text
+  challongeParticipantId     String?
+  challongePublishedAt       DateTime?
   tournament                 Tournament         @relation(fields: [tournamentId], references: [id], onDelete: Restrict)
 
   @@unique([tournamentId, emailNormalized])
   @@unique([tournamentId, epicUsernameNormalized])
   @@unique([tournamentId, dniNormalized])
+  @@unique([tournamentId, challongeParticipantId])
   @@index([tournamentId, status])
 }
 

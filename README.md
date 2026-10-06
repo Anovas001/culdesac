@@ -48,6 +48,7 @@ Parteix sempre de [.env.example](.env.example). No pugis mai `.env` al repositor
 | `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET` | Clau secreta i secret de signatura del webhook. |
 | `EMAIL_MODE` | `console` en local o `resend` en producció. |
 | `RESEND_API_KEY`, `EMAIL_FROM` | Necessàries quan `EMAIL_MODE=resend`. |
+| `CHALLONGE_API_KEY` | Opcional. Clau privada del compte organitzador per publicar pagats i convidats a Challonge. |
 
 Les contrasenyes amb `@`, `:`, `/`, `?` o `#` han d'estar URL-encoded dins de `DATABASE_URL`.
 
@@ -100,6 +101,8 @@ Per producció:
 4. Reinicia l'app i prova una inscripció en Stripe test abans de passar Stripe a live mode.
 
 ## Running tests
+
+Per vincular un torneig suís ja creat i enviar-hi participants des del backoffice, segueix [la guia de Challonge](docs/CHALLONGE.md).
 
 ```bash
 npm test

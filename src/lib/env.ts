@@ -31,6 +31,7 @@ const serverSchema = z.object({
   EMAIL_FROM: z.preprocess((value) => value === "" ? undefined : value, z.string().min(3).optional()),
   STRIPE_SECRET_KEY: optionalSecret,
   STRIPE_WEBHOOK_SECRET: optionalSecret,
+  CHALLONGE_API_KEY: optionalSecret,
 }).superRefine((value, context) => {
   if (value.NODE_ENV === "production" && value.EMAIL_MODE !== "resend") {
     context.addIssue({ code: "custom", message: "Production requires EMAIL_MODE=resend.", path: ["EMAIL_MODE"] });
