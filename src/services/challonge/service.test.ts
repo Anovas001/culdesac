@@ -33,7 +33,7 @@ const gateway: ChallongeGateway = {
   },
 };
 function registration(id: string, status = "INVITED", linked: string | null = null): LocalRegistration {
-  return { id, status, epicUsername: `Guest ${id}`, challongeParticipantId: linked };
+  return { id, status, epicUsername: `Guest ${id}`, discordUsername: `discord_${id}`, challongeParticipantId: linked };
 }
 beforeEach(() => {
   local = { id: "t1", challongeTournamentId: "42", challongeUrl: "https://challonge.com/cup", challongeCommunity: null, challongePublishAttemptedAt: null };
@@ -60,7 +60,7 @@ describe("linking", () => {
 describe("publishing", () => {
   it("includes only PAID and INVITED, and a second click creates no duplicates", async () => {
     expect(await publishChallongeParticipants(repository, gateway, "t1")).toMatchObject({ added: 2, confirmed: 2 });
-    expect(bulkCalls[0]).toEqual([{ name: "Guest r1", misc: "culdesac:r1" }, { name: "Guest r2", misc: "culdesac:r2" }]);
+    expect(bulkCalls[0]).toEqual([{ name: "Guest r1 - discord_r1", misc: "culdesac:r1" }, { name: "Guest r2 - discord_r2", misc: "culdesac:r2" }]);
     expect(await publishChallongeParticipants(repository, gateway, "t1")).toMatchObject({ added: 0, alreadyPublished: 2 });
     expect(bulkCalls).toHaveLength(1);
   });
@@ -68,7 +68,7 @@ describe("publishing", () => {
     await publishChallongeParticipants(repository, gateway, "t1");
     registrations.push(registration("new"));
     expect(await publishChallongeParticipants(repository, gateway, "t1")).toMatchObject({ added: 1 });
-    expect(bulkCalls[1]).toEqual([{ name: "Guest new", misc: "culdesac:new" }]);
+    expect(bulkCalls[1]).toEqual([{ name: "Guest new - discord_new", misc: "culdesac:new" }]);
   });
   it("recovers a remotely successful batch after a lost response", async () => {
     failBulkAt = 1;
@@ -131,7 +131,7 @@ describe("publishing", () => {
   it("does not publish a participant whose payment was refunded during the preflight", async () => {
     const refundingGateway = { ...gateway, async listParticipants() { registrations[0].status = "REFUNDED"; return []; } };
     expect(await publishChallongeParticipants(repository, refundingGateway, "t1")).toMatchObject({ added: 1, confirmed: 1 });
-    expect(bulkCalls[0]).toEqual([{ name: "Guest r2", misc: "culdesac:r2" }]);
+    expect(bulkCalls[0]).toEqual([{ name: "Guest r2 - discord_r2", misc: "culdesac:r2" }]);
   });
   it("blocks an unlinked tournament", async () => {
     local.challongeTournamentId = null;
@@ -150,6 +150,23 @@ describe("publishing", () => {
   it("blocks duplicate registration markers remotely", async () => {
     participants = [{ id: "p1", name: "one", misc: "culdesac:r1", active: true }, { id: "p2", name: "two", misc: "culdesac:r1", active: true }];
     await expect(publishChallongeParticipants(repository, gateway, "t1")).rejects.toThrow(/duplicat/i);
+  });
+  it("publishes both identifiers with trimmed whitespace and preserves Unicode", async () => {
+    registrations = [{ ...registration("r1"), epicUsername: "  Èpic 日本  ", discordUsername: "  @discord.àlex  " }];
+    await publishChallongeParticipants(repository, gateway, "t1");
+    expect(bulkCalls[0]).toEqual([{ name: "Èpic 日本 - @discord.àlex", misc: "culdesac:r1" }]);
+  });
+  it("blocks a manually entered participant using the combined name", async () => {
+    participants.push({ id: "p1", name: " guest R1 - DISCORD_r1 ", misc: null, active: true });
+    await expect(publishChallongeParticipants(repository, gateway, "t1")).rejects.toThrow(/nickname/i);
+    expect(bulkCalls).toHaveLength(0);
+  });
+  it("recognizes a legacy nickname-only participant through its stable marker", async () => {
+    registrations = [registration("r1")];
+    participants = [{ id: "p1", name: "Guest r1", misc: "culdesac:r1", active: true }];
+    expect(await publishChallongeParticipants(repository, gateway, "t1")).toMatchObject({ added: 0, recovered: 1 });
+    expect(bulkCalls).toHaveLength(0);
+    expect(participants[0].name).toBe("Guest r1");
   });
   it("preserves manual nickname changes and warns about withdrawals without deleting them", async () => {
     await publishChallongeParticipants(repository, gateway, "t1");

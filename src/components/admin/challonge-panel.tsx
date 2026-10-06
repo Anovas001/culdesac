@@ -27,7 +27,7 @@ export function ChallongePanel({ tournamentId, url, configured, confirmed, publi
         </div>
         {url && <a className="button subtle-button" href={url} target="_blank" rel="noopener noreferrer">Obrir Challonge ↗</a>}
       </div>
-      <p className="muted">Vincula el torneig suís que heu creat a Challonge i envia-hi els nicknames de Fortnite de totes les inscripcions pagades i convidades, independentment del filtre del llistat.</p>
+      <p className="muted">Vincula el torneig suís que heu creat a Challonge i envia-hi totes les inscripcions pagades i convidades amb el nom «Nickname Fortnite - Tag Discord», independentment del filtre del llistat.</p>
       {!configured && <p className="invitation-notice">Challonge encara no està configurat. Afegeix <code>CHALLONGE_API_KEY</code> a l’entorn del servidor i recrea l’app. L’enllaç del torneig s’introdueix aquí.</p>}
       <form action={action} className="form" aria-busy={pending}>
         <input type="hidden" name="tournamentId" value={tournamentId} />

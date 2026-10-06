@@ -30,7 +30,7 @@ export const challongeRepository: ChallongeRepository = {
     id: true, challongeTournamentId: true, challongeUrl: true, challongeCommunity: true, challongePublishAttemptedAt: true,
   } }),
   listRegistrations: (tournamentId) => db.registration.findMany({ where: { tournamentId }, orderBy: [{ createdAt: "asc" }, { id: "asc" }], select: {
-    id: true, status: true, epicUsername: true, challongeParticipantId: true,
+    id: true, status: true, epicUsername: true, discordUsername: true, challongeParticipantId: true,
   } }),
   async saveLink(id, link) {
     try {

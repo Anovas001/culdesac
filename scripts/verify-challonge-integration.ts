@@ -38,7 +38,7 @@ async function makeFixture(suffix = "") {
   const number = 77000000 + ++index;
   const input = registrationSchema.parse({ fullName: `QA integration fixture ${prefix} ${index}`, email: `qa.${stamp}.${index}@example.invalid`, phone: "600000000", dni: `${number}${"TRWAGMYFPDXBNJZSQVHLCKE"[number % 23]}`, postalCode: "08001", epicUsername: `${prefix}_${index}${suffix}`, discordUsername: `qa_${stamp}_${index}`, acceptedTerms: true, acceptedPrivacy: true, acceptedMarketing: false });
   const created = await persistInvitation(localId, input);
-  const fixture = { id: created.id, name: input.epicUsername, input };
+  const fixture = { id: created.id, name: `${input.epicUsername} - ${input.discordUsername}`, input };
   fixtures.push(fixture); saveReport();
   return fixture;
 }
@@ -110,7 +110,7 @@ try {
   assert.equal((await publish()).added, 1);
   const incrementalRemote = await remoteSnapshot(baselineRemote.length + 22);
   assert.equal(incrementalRemote.find((p) => p.misc === `culdesac:${unicode.id}`)?.name, unicode.name);
-  pass("Incremental invitation and exact Unicode nickname preservation");
+  pass("Incremental invitation and exact Fortnite - Discord Unicode name preservation");
 
   let entered!: () => void; let release!: () => void;
   const occupied = new Promise<void>((resolve) => { entered = resolve; });

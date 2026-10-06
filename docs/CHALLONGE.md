@@ -1,6 +1,6 @@
 # Enviament de participants a Challonge
 
-La integració vincula un torneig ja creat a Challonge i hi publica totes les inscripcions **pagades i convidades** de Culdesac. L’exportació Excel continua disponible.
+La integració vincula un torneig ja creat a Challonge i hi publica totes les inscripcions **pagades i convidades** de Culdesac amb el nom visible **`Nickname Fortnite - Tag Discord`**, per exemple `Anovas - anovas`. L’exportació Excel continua disponible.
 
 ## Configuració
 
@@ -27,7 +27,7 @@ La integració vincula un torneig ja creat a Challonge i hi publica totes les in
 2. Al bloc «Participants a Challonge», enganxa l’enllaç i prem «Vincular torneig». Aquesta operació comprova el torneig, però encara no hi crea participants.
 3. Crea dues invitacions amb dades diferents; les places han de quedar confirmades. Les invitacions no necessiten Stripe.
 4. Prem «Enviar participants». S’envien totes les inscripcions PAID i INVITED d’aquell torneig, també les pagades que ja existien, encara que el llistat estigui filtrat per «Invitacions».
-5. Obre Challonge i comprova que els noms són els nicknames de Fortnite. A Culdesac apareix «Publicat a Challonge» a cada inscripció enviada i el recompte de publicats.
+5. Obre Challonge i comprova que els noms tenen el format `Nickname Fortnite - Tag Discord`. A Culdesac apareix «Publicat a Challonge» a cada inscripció enviada i el recompte de publicats.
 6. Prem «Comprovar participants» una altra vegada: no ha de crear duplicats. Crea una tercera invitació i envia-la; només ha d’afegir aquesta incorporació.
 7. Un cop la llista sigui definitiva, revisa les rondes, la puntuació i els seeds a Challonge i inicia-hi el torneig. Culdesac no l’inicia automàticament.
 
@@ -36,7 +36,8 @@ La migració de la feature ja està aplicada a la base de dades local. Les dades
 ## Decisions de funcionament
 
 - Només l’admin pot vincular, desvincular o publicar. Les accions utilitzen les proteccions dels Server Actions de Next.js.
-- S’envien el nickname i un marcador opac `culdesac:<id_inscripció>` al camp `misc` per recuperar enviaments. No es transfereixen nom real, email, DNI, telèfon ni tag de Discord. `name` és el nickname; `username` queda sense enviar perquè és un usuari de Challonge.
+- S’envien el nickname de Fortnite i el tag de Discord junts al camp visible `name`, i un marcador opac `culdesac:<id_inscripció>` al camp `misc` per recuperar enviaments. No es transfereixen nom real, email, DNI ni telèfon. `username` queda sense enviar perquè és un usuari de Challonge, no el tag de Discord.
+- El format combinat s’aplica a les altes noves. Les ja publicades es reconeixen pel seu ID i marcador encara que només mostrin el nickname antic; es conserva el nom remot per respectar els ajustos dels àrbitres.
 - Abans de cada enviament es consulta la llista remota completa i es reconcilien els identificadors. Les altes s’envien en blocs de fins a 20, el màxim documentat per l’endpoint bulk. No es repeteix automàticament un POST si falla la connexió; un nou clic comprova primer què s’ha creat realment.
 - Un bloqueig a PostgreSQL evita dos enviaments o canvis del vincle simultanis per al mateix torneig, també si hi ha diverses instàncies de l’app.
 - Pots corregir o desvincular un enllaç abans del primer enviament. Després d’intentar publicar, el vincle queda fix per mantenir el seguiment, també si la resposta s’ha perdut. Un mateix torneig remot no pot estar vinculat a dos tornejos locals.

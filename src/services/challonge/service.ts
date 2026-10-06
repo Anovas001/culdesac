@@ -7,7 +7,7 @@ export type LocalTournament = {
   challongeCommunity: string | null;
   challongePublishAttemptedAt: Date | null;
 };
-export type LocalRegistration = { id: string; status: string; epicUsername: string; challongeParticipantId: string | null };
+export type LocalRegistration = { id: string; status: string; epicUsername: string; discordUsername: string; challongeParticipantId: string | null };
 export type ParticipantLink = { registrationId: string; participantId: string };
 export type ChallongeRepository = {
   withLock<T>(id: string, work: () => Promise<T>): Promise<T>;
@@ -23,6 +23,7 @@ export type PublishResult = { added: number; recovered: number; alreadyPublished
 const isConfirmed = (registration: LocalRegistration) => ["PAID", "INVITED"].includes(registration.status);
 const marker = (id: string) => `culdesac:${id}`;
 const normalizeName = (name: string) => name.trim().toLowerCase();
+const participantName = (registration: LocalRegistration) => `${registration.epicUsername.trim()} - ${registration.discordUsername.trim()}`;
 export const safeChallongeError = (cause: unknown) => cause instanceof ChallongeError ? cause.message : "No s’ha pogut completar l’enviament. Torna a prémer «Enviar participants»: comprovarem la llista de Challonge abans d’afegir-ne més.";
 
 function requireEditable(remote: RemoteTournament) {
@@ -110,7 +111,8 @@ export async function publishChallongeParticipants(repo: ChallongeRepository, ap
           if (stored?.misc?.startsWith("culdesac:") && stored.misc !== marker(registration.id)) throw new ChallongeError("Un participant de Challonge està associat a una altra inscripció. Revisa el llistat abans de continuar.");
           if (stored) alreadyPublished++; else recovered.push({ registrationId: registration.id, participantId: existing.id });
         } else {
-          if (participants.some((p) => normalizeName(p.name) === normalizeName(registration.epicUsername))) throw new ChallongeError(`Ja existeix el nickname «${registration.epicUsername}» a Challonge sense vincle amb aquesta inscripció. Revisa el participant introduït manualment per evitar duplicats.`);
+          const matchingNames = new Set([normalizeName(registration.epicUsername), normalizeName(participantName(registration))]);
+          if (participants.some((p) => matchingNames.has(normalizeName(p.name)))) throw new ChallongeError(`Ja existeix el nickname «${registration.epicUsername}» a Challonge sense vincle amb aquesta inscripció. Revisa el participant introduït manualment per evitar duplicats.`);
           pending.push(registration);
         }
       }
@@ -125,7 +127,7 @@ export async function publishChallongeParticipants(repo: ChallongeRepository, ap
         const batch = pending.slice(start, start + CHALLONGE_BULK_LIMIT).filter((r) => stillConfirmed.has(r.id));
         if (!batch.length) continue;
         await repo.markPublishAttempt(id);
-        const response = await api.bulkAdd(ref, batch.map((r) => ({ name: r.epicUsername, misc: marker(r.id) })));
+        const response = await api.bulkAdd(ref, batch.map((r) => ({ name: participantName(r), misc: marker(r.id) })));
         const created = indexParticipants(response).markers;
         const links = batch.map((r) => {
           const participant = created.get(marker(r.id));

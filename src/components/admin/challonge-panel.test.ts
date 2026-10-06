@@ -8,6 +8,7 @@ it("renders the pending count and explains that all confirmed participants are i
   const html = renderToStaticMarkup(createElement(ChallongePanel, props));
   expect(html).toContain("Enviar participants (2)");
   expect(html).toContain("independentment del filtre");
+  expect(html).toContain("Nickname Fortnite - Tag Discord");
   expect(html).toContain('target="_blank"');
 });
 it("shows the missing credential setup and disables publishing", () => {
