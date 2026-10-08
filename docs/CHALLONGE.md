@@ -35,6 +35,8 @@ La migració de la feature ja està aplicada a la base de dades local. Les dades
 
 ## Decisions de funcionament
 
+Per editar/eliminar participacions i tornar a publicar un torneig que s’ha buidat manualment, consulta [la guia de gestió i conciliació](REGISTRATION_MANAGEMENT.md).
+
 - Només l’admin pot vincular, desvincular o publicar. Les accions utilitzen les proteccions dels Server Actions de Next.js.
 - S’envien el nickname de Fortnite i el tag de Discord junts al camp visible `name`, i un marcador opac `culdesac:<id_inscripció>` al camp `misc` per recuperar enviaments. No es transfereixen nom real, email, DNI ni telèfon. `username` queda sense enviar perquè és un usuari de Challonge, no el tag de Discord.
 - El format combinat s’aplica a les altes noves. Les ja publicades es reconeixen pel seu ID i marcador encara que només mostrin el nickname antic; es conserva el nom remot per respectar els ajustos dels àrbitres.

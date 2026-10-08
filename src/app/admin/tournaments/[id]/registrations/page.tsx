@@ -16,12 +16,12 @@ export default async function Registrations({
   searchParams,
 }: {
   params: Promise<{ id: string }>;
-  searchParams: Promise<{ status?: string; created?: string }>;
+  searchParams: Promise<{ status?: string; created?: string; updated?: string; deleted?: string }>;
 }) {
   if (!await isAdmin((await cookies()).get(cookieName)?.value)) redirect("/admin/login");
 
   const { id } = await params;
-  const { status, created } = await searchParams;
+  const { status, created, updated, deleted } = await searchParams;
   const activeFilter = parseRegistrationFilter(status);
   const tournament = await db.tournament.findUnique({ where: { id } });
   if (!tournament) notFound();
@@ -48,6 +48,8 @@ export default async function Registrations({
         {(tournament.status === "OPEN" || tournament.status === "CLOSED") && <Link className="button" href={`/admin/tournaments/${id}/registrations/invite`}>+ Afegir invitació</Link>}
       </div>
       {created === "1" && <p className="invitation-notice" role="status">Invitació creada i plaça confirmada. No s’ha enviat cap correu; pots fer-ho amb el botó «Enviar confirmació» de la inscripció.</p>}
+      {updated === "1" && <p className="invitation-notice" role="status">Dades de la participació actualitzades.</p>}
+      {deleted === "1" && <p className="invitation-notice" role="status">Participació eliminada definitivament de Culdesac.</p>}
       <section className="metrics" aria-label="Resum de les inscripcions del torneig">
         <div><small>Places confirmades</small><strong>{paid + invited}{tournament.capacity !== null ? ` / ${tournament.capacity}` : ""}</strong><span>Pagades + invitacions</span></div>
         <div><small>Pagades</small><strong>{paid}</strong><span>Amb pagament confirmat</span></div>
@@ -87,7 +89,7 @@ export default async function Registrations({
               <th>Consentiments</th>
               <th>Estat / import</th>
               <th>Data</th>
-              <th></th>
+              <th>Accions</th>
             </tr>
           </thead>
           <tbody>
@@ -118,7 +120,11 @@ export default async function Registrations({
                   <small>{registration.status === "INVITED" ? "Gratuïta · Sense cobrament" : formatMoney(registration.amountCents, registration.currency)}</small>
                 </td>
                 <td>{new Intl.DateTimeFormat("ca-ES", { dateStyle: "short", timeStyle: "short" }).format(registration.createdAt)}</td>
-                <td>
+                <td className="registration-management-actions">
+                  <div className="actions">
+                    <Link className="button subtle-button" href={`/admin/tournaments/${id}/registrations/${registration.id}/edit`} aria-label={`Editar participació de ${registration.fullName}`}>Editar</Link>
+                    <Link className="button danger-button" href={`/admin/tournaments/${id}/registrations/${registration.id}/delete`} aria-label={`Eliminar participació de ${registration.fullName}`}>Eliminar</Link>
+                  </div>
                   {(registration.status === "PAID" || registration.status === "INVITED") && (
                     <form action={resendConfirmation}>
                       <input type="hidden" name="id" value={registration.id} />

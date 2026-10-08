@@ -1,5 +1,13 @@
 @import "tailwindcss";
 
+.registration-edit-form{max-width:760px}
+.registration-edit-form fieldset{border:0;padding:0;margin:0;min-width:0}
+.registration-edit-form legend{margin-bottom:16px}
+.registration-management-actions .actions{margin-bottom:12px;flex-wrap:nowrap}
+.registration-management-actions .button{font-size:.8rem;white-space:nowrap}
+.deletion-notice{padding:18px 20px;border:1px solid #824357;border-radius:12px;background:#2e1822;color:#ffd9df;line-height:1.6}
+.deletion-notice p{margin:6px 0 0}
+
 .challonge-panel .eyebrow{margin-top:0}
 .challonge-panel .muted{line-height:1.6}
 .challonge-panel .form{margin-top:20px}
